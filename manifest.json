@@ -21,7 +21,7 @@
 		}
 	],
 	"permissions": [ "storage" ],
-	"web_accessible_resources": [],
+	"web_accessible_resources": ["js/inject.js"],
 	"background": { "scripts": ["js/background.js"] },
 	"options_page": "options.html",
 	"options_ui": {
