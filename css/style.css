@@ -1,0 +1,21 @@
+.hidebtn
+{
+    float: right;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    border: 0;
+    background-color: inherit;
+    color: #bcbcbc;
+}
+
+.hidebtn:hover
+{
+    color: #888;
+    cursor: pointer;
+}
+
+.hidebtn:focus
+{
+    outline: 0;
+}
