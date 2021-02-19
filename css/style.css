@@ -1,7 +1,15 @@
+#CurrentCourses ul > li
+{
+    position: relative;
+}
+
 .hidebtn
 {
     float: right;
-    font-size: 16px;
+    position: absolute;
+    top: 5px;
+    right: -12px;
+    font-size: 20px;
     font-family: Arial, Helvetica, sans-serif;
     padding: 0;
     border: 0;

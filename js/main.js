@@ -6,7 +6,7 @@ const sessionLinks = {
     "COMP10120 Team - Thu Tutorial": "https://zoom.us/j/93017662193#success",
     "COMP11120 Math - Tue Example - 328882": "https://zoom.us/j/91297341121#success",
     "COMP11120 Math - Tur Live - 084290": "https://zoom.us/j/99774198906#success",
-    "COMP11212 Computation": "https://zoom.us/j/93199465841#success",
+    "COMP11212 Computation - 161803": "https://zoom.us/j/93199465841#success",
     "COMP13212 Data - Wed Lab (Week B)": "https://zoom.us/j/96410527968#success",
     "COMP13212 Data - Fri QA - 191863": "https://zoom.us/j/94617933511#success",
     "COMP15212 OS": "https://zoom.us/j/93740586633#success",
@@ -22,15 +22,11 @@ function injectCustomJs() {
 	document.head.appendChild(temp);
 }
 
-function renderCourses() {
-    // render Courses Port
-    // show edit button
-    let edit_controls = document.getElementById("column1").getElementsByClassName("edit_controls")[0];
-    edit_controls.innerHTML = '<a title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
-    // only display courses I want to see
+function renderCurrentCourses() {
+    // render display of current courses
     let courseEle = document.getElementById("CurrentCourses");
     if (!courseEle){
-        setTimeout(renderCourses, 10);
+        setTimeout(renderCurrentCourses, 10);
         return false;
     }
     let courses = courseEle.getElementsByTagName("ul")[0].getElementsByTagName("li");
@@ -38,9 +34,19 @@ function renderCourses() {
         let courseTitle = courses[i].innerText;
         let courseId = courseTitle.substring(0, 9);
         if (enabledCourses.indexOf(courseId) == -1) {
+            courses[i].getElementsByTagName("a")[0].style.textDecoration = "line-through";
+            courses[i].getElementsByTagName("a")[0].style.color = "#bcbcbc";
             courses[i].style.display = "none";
         }
     }
+}
+
+function renderCoursesPort() {
+    // render Courses Port
+    // show edit button
+    let edit_controls = document.getElementById("column1").getElementsByClassName("edit_controls")[0];
+    edit_controls.innerHTML = '<a title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
+    renderCurrentCourses();
 }
 
 function calculateTime() {
@@ -87,6 +93,6 @@ window.onload = () => {
         injectCustomJs();
         renderTimePort();
         renderLivePort();
-        renderCourses();
+        renderCoursesPort();
     }
 }
