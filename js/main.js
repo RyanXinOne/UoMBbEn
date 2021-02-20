@@ -1,5 +1,4 @@
 
-const enabledCourses = ["COMP10120", "COMP11120", "COMP11212", "COMP13212", "COMP15212", "COMP16412"];
 const sessionLinks = {
     "COMP10120 Team - Mon Live": "https://zoom.us/j/99834452668#success",
     "COMP10120 Team - Tue Lab": "https://zoom.us/j/99472897815#success",
@@ -13,40 +12,72 @@ const sessionLinks = {
     "COMP16412 Java": "https://zoom.us/j/97747275935#success"
 }
 
-function injectCustomJs() {
-    // inject js
-    var temp = document.createElement('script');
-    temp.setAttribute('type', 'text/javascript');
-	// get the link like：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js
-	temp.src = chrome.extension.getURL('js/inject.js');
-	document.head.appendChild(temp);
+function commandHandler(command, data) {
+    // handle internal commands (mainly for writing into chrome storage)
+    switch (command) {
+        case "showCourse":
+            // remove a course name from "disabledCourses"
+            chrome.storage.sync.get(["disabledCourses"], (items) => {
+                let value = JSON.parse(items.disabledCourses);
+                let index = value.indexOf(data);
+                if (index > -1) {
+                    value.splice(index, 1);
+                    chrome.storage.sync.set({ "disabledCourses": JSON.stringify(value) });
+                }
+            });
+            break;
+        case "hideCourse":
+            // add a course name into "disabledCourses"
+            chrome.storage.sync.get(["disabledCourses"], (items) => {
+                let value = JSON.parse(items.disabledCourses);
+                if (value.indexOf(data) === -1) {
+                    value.push(data);
+                    chrome.storage.sync.set({ "disabledCourses": JSON.stringify(value) });
+                }
+            });
+            break;
+        default:
+            break;
+    }
 }
 
-function renderCurrentCourses() {
-    // render display of current courses
-    let courseEle = document.getElementById("CurrentCourses");
-    if (!courseEle){
-        setTimeout(renderCurrentCourses, 10);
-        return false;
-    }
-    let courses = courseEle.getElementsByTagName("ul")[0].getElementsByTagName("li");
-    for (let i = 0; i < courses.length; i++){
-        let courseTitle = courses[i].innerText;
-        let courseId = courseTitle.substring(0, 9);
-        if (enabledCourses.indexOf(courseId) == -1) {
-            courses[i].getElementsByTagName("a")[0].style.textDecoration = "line-through";
-            courses[i].getElementsByTagName("a")[0].style.color = "#bcbcbc";
-            courses[i].style.display = "none";
-        }
-    }
+function initialize() {
+    // initialize chrome storage
+    chrome.storage.sync.get(["disabledCourses"], (items) => {
+        if (!items.disabledCourses)
+            chrome.storage.sync.set({ "disabledCourses": JSON.stringify([]) });
+    });
+    // inject cuntom js
+    var temp = document.createElement('script');
+    temp.setAttribute('type', 'text/javascript');
+	temp.src = chrome.extension.getURL('js/inject.js');  // get the link like：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js
+    document.head.appendChild(temp);
+    // register "message" event listener for communication
+    window.addEventListener("message", (e) => {
+        commandHandler(e.data.command, e.data.data);
+    }, false);
 }
 
 function renderCoursesPort() {
     // render Courses Port
-    // show edit button
-    let edit_controls = document.getElementById("column1").getElementsByClassName("edit_controls")[0];
-    edit_controls.innerHTML = '<a title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
-    renderCurrentCourses();
+    let courseEle = document.getElementById("CurrentCourses");
+    if (!courseEle){
+        setTimeout(renderCoursesPort, 10);
+        return false;
+    }
+    // render display of current courses
+    chrome.storage.sync.get(["disabledCourses"], (items) => {
+        let courses = courseEle.getElementsByTagName("ul")[0].getElementsByTagName("li");
+        for (let i = 0; i < courses.length; i++) {
+            let courseTitle = courses[i].getElementsByTagName("a")[0].innerText;
+            if (items.disabledCourses.indexOf(courseTitle) > -1) {
+                courses[i].classList.add("hiddenCourse");
+                courses[i].style.display = "none";
+            }
+        }
+        // show edit button of Courses port
+        document.getElementById("column1").getElementsByClassName("edit_controls")[0].innerHTML = '<a title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
+    });
 }
 
 function calculateTime() {
@@ -84,13 +115,13 @@ function renderLivePort() {
     document.getElementById("column0").appendChild(livePort);
 }
 
-function renderLinks() {
-    // render Useful Links Port
+function renderLinksPort() {
+    // render custom Links Port
 }
 
 window.onload = () => {
     if (document.getElementsByClassName("moduleTitle").length && document.getElementsByClassName("moduleTitle")[0].innerText === "Welcome") {
-        injectCustomJs();
+        initialize();
         renderTimePort();
         renderLivePort();
         renderCoursesPort();

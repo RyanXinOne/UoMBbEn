@@ -27,3 +27,9 @@
 {
     outline: 0;
 }
+
+.hiddenCourse > a
+{
+    text-decoration: line-through !important;
+    color: #bcbcbc !important;
+}

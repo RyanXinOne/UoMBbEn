@@ -13,7 +13,7 @@ function editCourses() {
         let courses = document.getElementById("CurrentCourses").getElementsByTagName("ul")[0].getElementsByTagName("li");
         for (let i = 0; i < courses.length; i++) {
             courses[i].innerHTML = courses[i].innerHTML.replace(/<button.*hidebtn.*>.*<\/button>/, "");
-            if (courses[i].getElementsByTagName("a")[0].style.textDecoration === "line-through") {
+            if (courses[i].className.indexOf("hiddenCourse") !== -1) {
                 courses[i].style.display = "none";
             }
         }
@@ -21,13 +21,16 @@ function editCourses() {
 }
 
 function toggleCourseDisplay(courseIndex) {
-    let anchorEle = document.getElementById("CurrentCourses").getElementsByTagName("ul")[0].getElementsByTagName("li")[courseIndex].getElementsByTagName("a")[0];
-    if (anchorEle.style.textDecoration === "line-through") {
-        anchorEle.style.textDecoration = "none";
-        anchorEle.style.color = "#1874a4";
+    // hide or show a course entry
+    let courseEle = document.getElementById("CurrentCourses").getElementsByTagName("ul")[0].getElementsByTagName("li")[courseIndex];
+    if (courseEle.className.indexOf("hiddenCourse") !== -1) {
+        // show
+        courseEle.classList.remove("hiddenCourse");
+        window.postMessage({"command": "showCourse", "data": courseEle.getElementsByTagName("a")[0].innerText}, '*');
     }
     else {
-        anchorEle.style.textDecoration = "line-through";
-        anchorEle.style.color = "#bcbcbc";
+        // hide
+        courseEle.classList.add("hiddenCourse");
+        window.postMessage({"command": "hideCourse", "data": courseEle.getElementsByTagName("a")[0].innerText}, '*');
     }
 }
