@@ -5,7 +5,8 @@ function editCourses() {
     if (isCourseEditing) {
         let courses = document.getElementById("CurrentCourses").getElementsByTagName("ul")[0].getElementsByTagName("li");
         for (let i = 0; i < courses.length; i++) {
-            courses[i].innerHTML += '<button class="hidebtn" onclick="toggleCourseDisplay(' + i + ')">×</button>';
+            let isHidden = courses[i].className.indexOf("hiddenCourse") !== -1;
+            courses[i].innerHTML += '<button class="hidebtn" title="Toggle Display" onclick="toggleCourseDisplay(' + i + ')">' + (isHidden ? '☐' : '☒') + '</button>';
             courses[i].style.display = "list-item";
         }
     }
@@ -26,11 +27,13 @@ function toggleCourseDisplay(courseIndex) {
     if (courseEle.className.indexOf("hiddenCourse") !== -1) {
         // show
         courseEle.classList.remove("hiddenCourse");
+        courseEle.getElementsByTagName("button")[0].innerText = "☒";
         window.postMessage({"command": "showCourse", "data": courseEle.getElementsByTagName("a")[0].innerText}, '*');
     }
     else {
         // hide
         courseEle.classList.add("hiddenCourse");
+        courseEle.getElementsByTagName("button")[0].innerText = "☐";
         window.postMessage({"command": "hideCourse", "data": courseEle.getElementsByTagName("a")[0].innerText}, '*');
     }
 }
