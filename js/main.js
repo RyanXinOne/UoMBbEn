@@ -1,12 +1,14 @@
 
 const sessionLinks = {
-    "COMP10120 Team - Mon Live": "https://zoom.us/j/99834452668#success",
+    "COMP10120 Team - Mon Live - 451671": "https://zoom.us/j/99834452668#success",
     "COMP10120 Team - Tue Lab": "https://zoom.us/j/99472897815#success",
+    "COMP10120 Team - Wed PASS": "https://us05web.zoom.us/j/5168383345?pwd=Z1hvMXZKVERUMkRrNG5wTTY4dlFodz09#success",
     "COMP10120 Team - Thu Tutorial": "https://zoom.us/j/93017662193#success",
     "COMP11120 Math - Tue Example - 328882": "https://zoom.us/j/91297341121#success",
     "COMP11120 Math - Tur Live - 084290": "https://zoom.us/j/99774198906#success",
     "COMP11212 Computation - 161803": "https://zoom.us/j/93199465841#success",
     "COMP13212 Data - Wed Lab (Week B)": "https://zoom.us/j/96410527968#success",
+    "COMP13212 Data - Wed Office Hour": "https://zoom.us/j/94272986759#success",
     "COMP13212 Data - Fri QA - 191863": "https://zoom.us/j/94617933511#success",
     "COMP15212 OS": "https://zoom.us/j/93740586633#success",
     "COMP16412 Java": "https://zoom.us/j/97747275935#success"
@@ -106,7 +108,7 @@ function renderLivePort() {
     // render live session port
     let livePort = document.createElement("div");
     livePort.className = "portlet clearfix";
-    let iHTML = '<div class="edit_controls"></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div style="display: block;"><ul class="listElement">';
+    let iHTML = '<div class="edit_controls"><a title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="editLiveSessions()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement">';
     for (let key in sessionLinks){
         iHTML += '<li><a href="' + sessionLinks[key] + '" target="_blank">' + key + '</a></li>';
     }

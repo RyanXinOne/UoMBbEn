@@ -1,4 +1,6 @@
 let isCourseEditing = false;
+let isLiveEditing = false;
+
 function editCourses() {
     // enter edit mode of courses
     isCourseEditing = !isCourseEditing;
@@ -35,5 +37,17 @@ function toggleCourseDisplay(courseIndex) {
         courseEle.classList.add("hiddenCourse");
         courseEle.getElementsByTagName("button")[0].innerText = "☐";
         window.postMessage({"command": "hideCourse", "data": courseEle.getElementsByTagName("a")[0].innerText}, '*');
+    }
+}
+
+function editLiveSessions() {
+    // enter edit mode of Live Sessions
+    isLiveEditing = !isLiveEditing;
+    if (isLiveEditing) {
+        let livePort = document.getElementById("livePort");
+        livePort.innerHTML += '<div class="liveEditBox"><div><span>Group</span><input></div><div><span>Title</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input></div><div><button>Confirm</button></div></div>'
+    }
+    else {
+
     }
 }
