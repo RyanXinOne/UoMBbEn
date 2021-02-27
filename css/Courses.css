@@ -33,28 +33,3 @@
     text-decoration: line-through !important;
     color: #bcbcbc !important;
 }
-
-.liveEditBox
-{
-    border: dashed 1px;
-    border-radius: 5px;
-    padding: 3px;
-}
-
-.liveEditBox > div
-{
-    padding: 3px;
-    font-size: 12px;
-}
-
-.liveEditBox > div > span
-{
-    display: inline-block;
-    width: 70px;
-}
-
-.liveEditBox > div:last-child
-{
-    text-align: right;
-    padding-right: 10px;
-}

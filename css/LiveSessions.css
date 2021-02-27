@@ -1,0 +1,77 @@
+.editbtn
+{
+    float: right;
+    padding: 0;
+    border: 0;
+    background-color: inherit;
+}
+
+.editbtn:hover
+{
+    color: #888;
+    cursor: pointer;
+}
+
+.editbtn:hover
+{
+    outline: 0;
+}
+
+.editbtn > svg
+{
+    fill: #bcbcbc;
+}
+
+.editbtn > svg:hover
+{
+    fill: #888;
+}
+
+.liveEditBox
+{
+    border: 2px dashed #bcbcbc;
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 7px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.liveEditBox > .addbtn
+{
+    padding: 0 !important;
+    text-align: center !important;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 20px;
+    user-select: none;
+    color: #bcbcbc;
+}
+
+.liveEditBox > .addbtn:hover
+{
+    color: #888;
+    cursor: pointer;
+}
+
+.liveEditBox > div
+{
+    padding: 3px;
+}
+
+.liveEditBox > div > span
+{
+    display: inline-block;
+    width: 70px;
+}
+
+.liveEditBox > div:last-child
+{
+    text-align: right;
+    padding-right: 7px;
+}
+
+.liveEditBox .editboxbtn
+{
+    margin-left: 10px;
+}
