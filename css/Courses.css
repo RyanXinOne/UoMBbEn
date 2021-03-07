@@ -5,6 +5,7 @@
 
 .hidebtn
 {
+    -webkit-appearance: none;
     float: right;
     position: absolute;
     top: 6px;

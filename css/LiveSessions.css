@@ -1,5 +1,6 @@
 .editbtn
 {
+    -webkit-appearance: none;
     float: right;
     padding: 0;
     border: 0;
@@ -12,7 +13,7 @@
     cursor: pointer;
 }
 
-.editbtn:hover
+.editbtn:focus
 {
     outline: 0;
 }
@@ -73,5 +74,33 @@
 
 .liveEditBox .editboxbtn
 {
+    -webkit-appearance: none;
     margin-left: 10px;
+    border: 0 solid;
+    border-radius: 2px;
+    color: #333;
+    background-color: #dadada;
+    line-height: 1.8em;
+}
+
+.liveEditBox .editboxbtn:hover
+{
+    cursor: pointer;
+    background-color: #ececec;
+}
+
+.liveEditBox .editboxbtn:focus
+{
+    outline: none;
+}
+
+.liveEditBox .editboxbtn:nth-last-child(2)
+{
+    color: #fff;
+    background-color: #333;
+}
+
+.liveEditBox .editboxbtn:nth-last-child(2):hover
+{
+    background-color: #4b4b4b;
 }

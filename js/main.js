@@ -45,6 +45,20 @@ function commandHandler(command, data) {
                 value.splice(data, 1);
                 chrome.storage.sync.set({ "liveSessions": JSON.stringify(value) });
             });
+            break;
+        case "renderLiveEditBox":
+            chrome.storage.sync.get(["liveSessions"], (items) => {
+                let index = data;
+                let editBox = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByClassName("liveEditBox")[0];
+                let valuei = JSON.parse(items.liveSessions)[index];
+                let inputBoxes = editBox.getElementsByTagName("input");
+                inputBoxes[0].value = valuei.group;
+                inputBoxes[1].value = valuei.title;
+                inputBoxes[2].value = valuei.link;
+                inputBoxes[3].value = valuei.passcode;
+                editBox.style.display = "block";
+            });
+            break;
         default:
             break;
     }
@@ -128,10 +142,6 @@ function renderLivePort() {
         livePort.innerHTML = iHTML;
         document.getElementById("column0").appendChild(livePort);
     });
-}
-
-function renderLinksPort() {
-    // render custom Links Port
 }
 
 window.onload = () => {
