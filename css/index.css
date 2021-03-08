@@ -1,0 +1,31 @@
+.collabtn
+{
+    -webkit-appearance: none;
+    float: right;
+    padding: 0;
+    border: 0;
+    width: 15px;
+    height: 15px;
+    background-color: inherit;
+    margin-right: 5px;
+}
+
+.collabtn:hover
+{
+    cursor: pointer;
+}
+
+.collabtn:focus
+{
+    outline: 0;
+}
+
+.collabtn > svg
+{
+    fill: #bcbcbc;
+}
+
+.collabtn > svg:hover
+{
+    fill: #888;
+}

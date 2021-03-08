@@ -4,12 +4,14 @@
     float: right;
     padding: 0;
     border: 0;
+    width: 15px;
+    height: 15px;
     background-color: inherit;
+    margin-top: 1px;
 }
 
 .editbtn:hover
 {
-    color: #888;
     cursor: pointer;
 }
 
@@ -102,5 +104,5 @@
 
 .liveEditBox .editboxbtn:nth-last-child(2):hover
 {
-    background-color: #4b4b4b;
+    background-color: #444;
 }

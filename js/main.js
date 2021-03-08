@@ -130,18 +130,29 @@ function renderTimePort() {
 
 function renderLivePort() {
     // render live session port
+    let livePort = document.createElement("div");
+    livePort.className = "portlet clearfix";
+    livePort.innerHTML = '<div class="edit_controls"><a title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editPort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement"></ul></div></div>';
+    document.getElementById("column0").appendChild(livePort);
     chrome.storage.sync.get(["liveSessions"], (items) => {
         let entries = JSON.parse(items.liveSessions);
-        let livePort = document.createElement("div");
-        livePort.className = "portlet clearfix";
-        let iHTML = '<div class="edit_controls"><a title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editPort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement">';
+        let livePortUl = document.getElementById("livePort").getElementsByTagName("ul")[0];
         for (let i = 0; i < entries.length; i++) {
-            iHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].title + '</a></li>';
+            livePortUl.innerHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].title + '</a></li>';
         }
-        iHTML += '</ul></div></div>';
-        livePort.innerHTML = iHTML;
-        document.getElementById("column0").appendChild(livePort);
     });
+}
+
+function renderCollapseOption() {
+    // add a collapse button for all boxes to collapse contents
+    let portlets = document.getElementsByClassName("portlet");
+    for (let i = 0; i < portlets.length; i++) {
+        let collapseBtn = document.createElement("button");
+        collapseBtn.className = "collabtn";
+        collapseBtn.setAttribute("onclick", "");
+        collapseBtn.innerHTML = '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M997.604 677.888l-431.56-431.56c-0.91-1.023-1.934-2.047-2.844-3.071-28.444-28.445-74.41-28.445-102.855 0L26.396 677.092c-28.444 28.444-28.444 74.41 0 102.855s74.411 28.444 102.856 0l382.293-382.294 383.09 383.09c28.444 28.445 74.41 28.445 102.855 0s28.444-74.41 0.114-102.855z"></path></svg>';
+        portlets[i].getElementsByTagName("h2")[0].appendChild(collapseBtn);
+    }
 }
 
 window.onload = () => {
@@ -150,5 +161,6 @@ window.onload = () => {
         renderTimePort();
         renderLivePort();
         renderCoursesPort();
+        renderCollapseOption();
     }
 }
