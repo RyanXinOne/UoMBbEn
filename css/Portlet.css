@@ -8,6 +8,7 @@
     height: 15px;
     background-color: inherit;
     margin-right: 5px;
+    margin-top: 1px;
 }
 
 .collabtn:hover
@@ -28,4 +29,9 @@
 .collabtn > svg:hover
 {
     fill: #888;
+}
+
+.rotated
+{
+    transform: rotate(180deg);
 }

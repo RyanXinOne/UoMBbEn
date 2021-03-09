@@ -16,8 +16,8 @@
         {
 			"matches": ["https://online.manchester.ac.uk/*"],
 			"js": ["js/main.js"],
-			"css": ["css/index.css", "css/Courses.css", "css/LiveSessions.css"],
-			"run_at": "document_start"
+			"css": ["css/Portlet.css", "css/Courses.css", "css/LiveSessions.css"],
+			"run_at": "document_end"
 		}
 	],
 	"permissions": [ "storage" ],

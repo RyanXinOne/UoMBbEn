@@ -45,17 +45,21 @@ let LiveSessionsPortEditor = {
     isLiveEditing: false,
 
     getEditButtonHTML(index) {
-        return '<button class="editbtn" onclick="LiveSessionsPortEditor.toggleEditBox(' + index + ')"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M861.635303 523.955265v323.584171c0 17.702782-14.406255 32.109037-32.109037 32.109037H173.067709c-17.702782 0-32.109037-14.406255-32.109037-32.109037V200.36039c0-17.702782 14.406255-32.109037 32.109037-32.109036h328.229279v-74.921087H173.067709c-59.102034 0-107.030123 47.928089-107.030123 107.030123v647.189749c0 59.102034 47.928089 107.030123 107.030123 107.030123h656.458557c59.102034 0 107.030123-47.928089 107.030123-107.030123V523.955265h-74.921086z"></path><path d="M580.413655 512.984677a37.481949 37.481949 0 0 1-52.979911 0 37.481949 37.481949 0 0 1 0-52.979911l325.425089-325.425089a37.481949 37.481949 0 0 1 52.979911 0 37.481949 37.481949 0 0 1 0 52.979911L580.413655 512.984677zM404.969877 733.370404a37.460543 37.460543 0 1 1 0-74.921087h192.654222a37.460543 37.460543 0 1 1 0 74.921087h-192.654222z"></path></svg></button>';
+        return '<button class="editbtn" title="Edit this Entry" onclick="LiveSessionsPortEditor.toggleEditBox(' + index + ')"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M861.635303 523.955265v323.584171c0 17.702782-14.406255 32.109037-32.109037 32.109037H173.067709c-17.702782 0-32.109037-14.406255-32.109037-32.109037V200.36039c0-17.702782 14.406255-32.109037 32.109037-32.109036h328.229279v-74.921087H173.067709c-59.102034 0-107.030123 47.928089-107.030123 107.030123v647.189749c0 59.102034 47.928089 107.030123 107.030123 107.030123h656.458557c59.102034 0 107.030123-47.928089 107.030123-107.030123V523.955265h-74.921086z"></path><path d="M580.413655 512.984677a37.481949 37.481949 0 0 1-52.979911 0 37.481949 37.481949 0 0 1 0-52.979911l325.425089-325.425089a37.481949 37.481949 0 0 1 52.979911 0 37.481949 37.481949 0 0 1 0 52.979911L580.413655 512.984677zM404.969877 733.370404a37.460543 37.460543 0 1 1 0-74.921087h192.654222a37.460543 37.460543 0 1 1 0 74.921087h-192.654222z"></path></svg></button>';
     },
 
     getEditBoxHTML(index) {
         let html = '<div><span>Group</span><input></div><div><span>Title</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input></div><div>';
-        if (index != -1)
+        if (index !== -1)
             html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.deleteConfig(' + index + ')">Delete</button>';
-        html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.confirmConfig(' + index + ')">' + (index != -1 ? 'Confirm' : 'Add') + '</button>';
+        html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.confirmConfig(' + index + ')">' + (index !== -1 ? 'Confirm' : 'Add') + '</button>';
         html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.hideEditBox(' + index + ')">Cancel</button>';
         html += '</div>';
         return html;
+    },
+
+    getAddButtonHTML() {
+        return '<div class="addbtn" title="Add a New Entry" onclick="LiveSessionsPortEditor.showAddBox()">+</div>';
     },
 
     editPort() {
@@ -71,7 +75,7 @@ let LiveSessionsPortEditor = {
                 entries[i].innerHTML += '<div class="liveEditBox" style="display:none;">' + this.getEditBoxHTML(i) + '</div>';
             }
             //render add box
-            liveList.innerHTML += '<li><div class="liveEditBox"><div class="addbtn" onclick="LiveSessionsPortEditor.showAddBox()">+</div></div></li>';
+            liveList.innerHTML += '<li><div class="liveEditBox">' + this.getAddButtonHTML() + '</div></li>';
         }
         else {
             for (let i = 0; i < entries.length - 1; i++) {
@@ -85,19 +89,19 @@ let LiveSessionsPortEditor = {
     hideEditBox(index) {
         // hide the edit box
         let editBox = document.getElementById("livePort").getElementsByClassName("liveEditBox");
-        editBox = editBox[index != -1 ? index : editBox.length - 1];
-        if (index != -1) {
+        editBox = editBox[index !== -1 ? index : editBox.length - 1];
+        if (index !== -1) {
             editBox.style.display = "none";
         }
         else {
-            editBox.innerHTML = '<div class="addbtn" onclick="LiveSessionsPortEditor.showAddBox()">+</div>';
+            editBox.innerHTML = this.getAddButtonHTML();
         }
     },
 
     toggleEditBox(index) {
         // toggle display of editBoxes (triggered by edit button)
         let editBox = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByClassName("liveEditBox")[0];
-        if (editBox.style.display == "none") {
+        if (editBox.style.display === "none") {
             // render contents of edit box from storage
             window.postMessage({ "command": "renderLiveEditBox", "data": index });
         }
@@ -134,14 +138,14 @@ let LiveSessionsPortEditor = {
         // add or confirm editing of entries in Live Sessions port
         let editBox = document.getElementById("livePort").getElementsByClassName("liveEditBox");
         let addBoxIndex = editBox.length - 1;
-        editBox = editBox[index != -1 ? index : addBoxIndex];
+        editBox = editBox[index !== -1 ? index : addBoxIndex];
         let data = {
             "group": editBox.getElementsByTagName("input")[0].value,
             "title": editBox.getElementsByTagName("input")[1].value,
             "link": editBox.getElementsByTagName("input")[2].value,
             "passcode": editBox.getElementsByTagName("input")[3].value
         };
-        if (index != -1) {
+        if (index !== -1) {
             window.postMessage({ "command": "editLive", "data": [index, data] }, '*');
             // update ui (edit)
             let anchorEle = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByTagName("a")[0];
@@ -158,5 +162,29 @@ let LiveSessionsPortEditor = {
             editBox.parentNode.parentNode.insertBefore(newEntryEle, editBox.parentNode);
         }
         this.hideEditBox(index);
+    }
+};
+
+let PortletEditor = {
+    toggleCollapse(index) {
+        // collapse (or expand) the main body of a portlet
+        let portlet = document.getElementsByClassName("portlet")[index];
+        let title = portlet.getElementsByClassName("moduleTitle")[0].innerText;
+        let mainbody = portlet.getElementsByClassName("collapsible")[0];
+        let collapseBtn = portlet.getElementsByClassName("collabtn")[0];
+        if (mainbody.style.display === "none") {
+            mainbody.style.display = "block";
+            collapseBtn.setAttribute("title", "Collapse this Portlet");
+            collapseBtn.getElementsByTagName("svg")[0].classList.remove("rotated");
+            // store user setting
+            window.postMessage({ "command": "expandPortlet", "data": title });
+        }
+        else {
+            mainbody.style.display = "none";
+            collapseBtn.setAttribute("title", "Expand this Portlet");
+            collapseBtn.getElementsByTagName("svg")[0].classList.add("rotated");
+            // store user setting
+            window.postMessage({ "command": "collapsePortlet", "data": title });
+        }
     }
 };
