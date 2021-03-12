@@ -140,23 +140,23 @@ let LiveSessionsPortEditor = {
         let addBoxIndex = editBox.length - 1;
         editBox = editBox[index !== -1 ? index : addBoxIndex];
         let data = {
-            "group": editBox.getElementsByTagName("input")[0].value,
-            "title": editBox.getElementsByTagName("input")[1].value,
-            "link": editBox.getElementsByTagName("input")[2].value,
-            "passcode": editBox.getElementsByTagName("input")[3].value
+            "group": editBox.getElementsByTagName("input")[0].value.trim(),
+            "title": editBox.getElementsByTagName("input")[1].value.trim(),
+            "link": editBox.getElementsByTagName("input")[2].value.trim(),
+            "passcode": editBox.getElementsByTagName("input")[3].value.trim()
         };
         if (index !== -1) {
             window.postMessage({ "command": "editLive", "data": [index, data] }, '*');
             // update ui (edit)
             let anchorEle = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByTagName("a")[0];
             anchorEle.setAttribute("href", data.link);
-            anchorEle.innerText = data.title;
+            anchorEle.innerText = data.group + ' - ' + data.title;
         }
         else {
             window.postMessage({ "command": "addLive", "data": data }, '*');
             // update ui (add)
             let newEntryEle = document.createElement("li");
-            newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.title + '</a>';
+            newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.group + ' - ' + data.title + '</a>';
             newEntryEle.innerHTML += this.getEditButtonHTML(addBoxIndex);
             newEntryEle.innerHTML += '<div class="liveEditBox" style="display:none;">' + this.getEditBoxHTML(addBoxIndex) + '</div>';
             editBox.parentNode.parentNode.insertBefore(newEntryEle, editBox.parentNode);

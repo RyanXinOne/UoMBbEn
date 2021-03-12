@@ -1,3 +1,8 @@
+.editModule:focus
+{
+    outline: 0;
+}
+
 .collabtn
 {
     -webkit-appearance: none;

@@ -30,6 +30,24 @@
     fill: #888;
 }
 
+.cpbtn
+{
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+    padding: 0 5px;
+    margin-left: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+}
+
+.cpbtn:hover
+{
+    background-color: #dadada;
+}
+
 .liveEditBox
 {
     border: 2px dashed #bcbcbc;
@@ -37,7 +55,6 @@
     padding: 4px;
     margin-top: 7px;
     font-size: 12px;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 .liveEditBox > .addbtn
@@ -66,6 +83,21 @@
 {
     display: inline-block;
     width: 70px;
+}
+
+.liveEditBox > div > input
+{
+    -webkit-appearance: none;
+    border: 1px solid;
+    border-radius: 2px;
+    padding: 2px 3px;
+    width: 150px;
+    height: 16px;
+}
+
+.liveEditBox > div > input:focus
+{
+    outline: 0;
 }
 
 .liveEditBox > div:last-child

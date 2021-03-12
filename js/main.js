@@ -102,7 +102,7 @@ function initialize() {
     // inject cuntom js
     var temp = document.createElement('script');
     temp.setAttribute('type', 'text/javascript');
-	temp.src = chrome.extension.getURL('js/inject.js');  // get the link like：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js
+	temp.src = chrome.extension.getURL('js/inject.js');  // get the link like：chrome-extension://xxxxxx/js/inject.js
     document.head.appendChild(temp);
     // register "message" event listener for communication
     window.addEventListener("message", (e) => {
@@ -129,7 +129,7 @@ function renderCoursesPort() {
             }
         }
         // show edit button of Courses port
-        document.getElementById("column1").getElementsByClassName("edit_controls")[0].innerHTML = '<a title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="CoursesPortEditor.editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
+        document.getElementById("column1").getElementsByClassName("edit_controls")[0].innerHTML = '<a class="editModule" title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="CoursesPortEditor.editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
     });
 }
 
@@ -159,14 +159,20 @@ function renderLivePort() {
     // render live session port
     let livePort = document.createElement("div");
     livePort.className = "portlet clearfix";
-    livePort.innerHTML = '<div class="edit_controls"><a title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editPort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement"></ul></div></div>';
+    livePort.innerHTML = '<div class="edit_controls"><a class="editModule" title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editPort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement"></ul></div></div>';
     document.getElementById("column0").appendChild(livePort);
     chrome.storage.sync.get(["liveSessions"], (items) => {
         let entries = JSON.parse(items.liveSessions);
         let livePortUl = document.getElementById("livePort").getElementsByTagName("ul")[0];
+        let iHTML = "";
         for (let i = 0; i < entries.length; i++) {
-            livePortUl.innerHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].title + '</a></li>';
+            iHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].group + ' - ' + entries[i].title + '</a>';
+            if (entries[i].passcode) {
+                iHTML += '<span class="cpbtn">' + entries[i].passcode + '</span>';
+            }
+            iHTML += '</li>';
         }
+        livePortUl.innerHTML = iHTML;
     });
 }
 
