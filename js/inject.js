@@ -49,7 +49,7 @@ let LiveSessionsPortEditor = {
     },
 
     getEditBoxHTML(index) {
-        let html = '<div><span>Group</span><input></div><div><span>Title</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input></div><div>';
+        let html = '<div><span>Course</span><input></div><div><span>Tag</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input></div><div>';
         if (index !== -1)
             html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.deleteConfig(' + index + ')">Delete</button>';
         html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.confirmConfig(' + index + ')">' + (index !== -1 ? 'Confirm' : 'Add') + '</button>';
@@ -90,12 +90,8 @@ let LiveSessionsPortEditor = {
         // hide the edit box
         let editBox = document.getElementById("livePort").getElementsByClassName("liveEditBox");
         editBox = editBox[index !== -1 ? index : editBox.length - 1];
-        if (index !== -1) {
-            editBox.style.display = "none";
-        }
-        else {
-            editBox.innerHTML = this.getAddButtonHTML();
-        }
+        if (index !== -1) editBox.style.display = "none";
+        else editBox.innerHTML = this.getAddButtonHTML();
     },
 
     toggleEditBox(index) {
@@ -105,9 +101,7 @@ let LiveSessionsPortEditor = {
             // render contents of edit box from storage
             window.postMessage({ "command": "renderLiveEditBox", "data": index });
         }
-        else {
-            this.hideEditBox(index);
-        }
+        else this.hideEditBox(index);
     },
 
     showAddBox() {
@@ -123,12 +117,19 @@ let LiveSessionsPortEditor = {
         // update ui
         let entries = document.getElementById("livePort").getElementsByTagName("li");
         // update index number of onclick
+        let updateClickFunc = (ele, index) => {
+            let clickFunc = ele.getAttribute("onclick");
+            clickFunc = clickFunc.replace(/\(\d+?\)/, '(' + index + ')');
+            ele.setAttribute("onclick", clickFunc);
+        };
         for (let i = index + 1; i < entries.length - 1; i++) {
+            // update copy button
+            let cpBtns = entries[i].getElementsByClassName("cpbtn");
+            if (cpBtns.length) updateClickFunc(cpBtns[0], i - 1);
+            // update edit box buttons
             let btnEles = entries[i].getElementsByTagName("button");
             for (let j = 0; j < btnEles.length; j++) {
-                let clickFunc = btnEles[j].getAttribute("onclick");
-                clickFunc = clickFunc.replace(/\(\d+?\)/, '(' + (i - 1) + ')');
-                btnEles[j].setAttribute("onclick", clickFunc);
+                updateClickFunc(btnEles[j], i - 1);
             }
         }
         entries[index].remove();
@@ -148,20 +149,64 @@ let LiveSessionsPortEditor = {
         if (index !== -1) {
             window.postMessage({ "command": "editLive", "data": [index, data] }, '*');
             // update ui (edit)
-            let anchorEle = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByTagName("a")[0];
+            let entry = document.getElementById("livePort").getElementsByTagName("li")[index];
+            let anchorEle = entry.getElementsByTagName("a")[0];
             anchorEle.setAttribute("href", data.link);
             anchorEle.innerText = data.group + ' - ' + data.title;
+            // update copy button
+            let cpBtns = entry.getElementsByClassName("cpbtn");
+            if (cpBtns.length) cpBtns[0].remove();
+            if (data.passcode) {
+                let cpBtn = document.createElement("span");
+                cpBtn.className = "cpbtn";
+                cpBtn.setAttribute("title", "Copy Passcode");
+                cpBtn.setAttribute("onclick", "LiveSessionsPortEditor.copyPasscode(" + index + ")");
+                cpBtn.innerText = data.passcode;
+                let editBtn = entry.getElementsByClassName("editbtn")[0];
+                editBtn.parentNode.insertBefore(cpBtn, editBtn);
+            }
         }
         else {
             window.postMessage({ "command": "addLive", "data": data }, '*');
             // update ui (add)
             let newEntryEle = document.createElement("li");
             newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.group + ' - ' + data.title + '</a>';
+            // update copy button
+            if (data.passcode) {
+                newEntryEle.innerHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + addBoxIndex + ')">' + data.passcode + '</span>';
+            }
+            // update edit button and edit box
             newEntryEle.innerHTML += this.getEditButtonHTML(addBoxIndex);
             newEntryEle.innerHTML += '<div class="liveEditBox" style="display:none;">' + this.getEditBoxHTML(addBoxIndex) + '</div>';
             editBox.parentNode.parentNode.insertBefore(newEntryEle, editBox.parentNode);
         }
         this.hideEditBox(index);
+    },
+
+    copyPasscode(index) {
+        // copy passcode into clipboard
+        let entry = document.getElementById("livePort").getElementsByTagName("li")[index];
+        let pcdBtn = entry.getElementsByClassName("cpbtn")[0];
+        // execute copy
+        var aux = document.createElement("input");
+        aux.setAttribute("value", pcdBtn.innerText);
+        document.body.appendChild(aux);
+        aux.select();
+        let isSuccessful = document.execCommand("copy");
+        document.body.removeChild(aux);
+        // write copy feedback
+        let cpFeedback = document.createElement("span");
+        cpFeedback.className = "cpfeedback";
+        cpFeedback.innerText = isSuccessful ? "Copied" : "Copy Failed";
+        let editBtns = entry.getElementsByClassName("editbtn");
+        if (editBtns.length) editBtns[0].parentNode.insertBefore(cpFeedback, editBtns[0]);
+        else entry.appendChild(cpFeedback);
+        // register mouseleave event to delete copy feedback
+        let rmFeedback = () => {
+            entry.getElementsByClassName("cpfeedback")[0].remove();
+            entry.removeEventListener("mouseleave", rmFeedback, false);
+        };
+        entry.addEventListener("mouseleave", rmFeedback, false);
     }
 };
 

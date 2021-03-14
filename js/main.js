@@ -167,8 +167,9 @@ function renderLivePort() {
         let iHTML = "";
         for (let i = 0; i < entries.length; i++) {
             iHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].group + ' - ' + entries[i].title + '</a>';
+            // render copy button
             if (entries[i].passcode) {
-                iHTML += '<span class="cpbtn">' + entries[i].passcode + '</span>';
+                iHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + i + ')">' + entries[i].passcode + '</span>';
             }
             iHTML += '</li>';
         }
@@ -185,11 +186,13 @@ function renderCollapseOption() {
             let headerBar = portlets[i].getElementsByTagName("h2")[0];
             let title = headerBar.getElementsByClassName("moduleTitle")[0].innerText;
             let mainbody = portlets[i].getElementsByClassName("collapsible")[0];
+            // render collapse button
             let collapseBtn = document.createElement("button");
             collapseBtn.className = "collabtn";
             collapseBtn.setAttribute("onclick", "PortletEditor.toggleCollapse(" + i + ")");
             collapseBtn.style.display = "none";
             collapseBtn.innerHTML = '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M997.604 677.888l-431.56-431.56c-0.91-1.023-1.934-2.047-2.844-3.071-28.444-28.445-74.41-28.445-102.855 0L26.396 677.092c-28.444 28.444-28.444 74.41 0 102.855s74.411 28.444 102.856 0l382.293-382.294 383.09 383.09c28.444 28.445 74.41 28.445 102.855 0s28.444-74.41 0.114-102.855z"></path></svg>';
+            // render display of the portlet
             if (collapsedPortlets.indexOf(title) > -1) {
                 mainbody.style.display = "none";
                 collapseBtn.setAttribute("title", "Expand this Portlet");
@@ -200,6 +203,7 @@ function renderCollapseOption() {
                 collapseBtn.setAttribute("title", "Collapse this Portlet");
             }
             headerBar.appendChild(collapseBtn);
+            // register mouse events
             headerBar.onmouseover = () => { collapseBtn.style.display = "unset"; };
             headerBar.onmouseleave = () => { collapseBtn.style.display = "none"; };
         }

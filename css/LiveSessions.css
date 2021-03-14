@@ -48,6 +48,14 @@
     background-color: #dadada;
 }
 
+.cpfeedback
+{
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
 .liveEditBox
 {
     border: 2px dashed #bcbcbc;
