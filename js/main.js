@@ -166,11 +166,13 @@ function renderLivePort() {
         let livePortUl = document.getElementById("livePort").getElementsByTagName("ul")[0];
         let iHTML = "";
         for (let i = 0; i < entries.length; i++) {
-            iHTML += '<li><a href="' + entries[i].link + '" target="_blank">' + entries[i].group + ' - ' + entries[i].title + '</a>';
+            iHTML += '<li>';
+            iHTML += '<a href="' + entries[i].link + '" target="_blank">' + entries[i].group + ' - ' + entries[i].title + '</a>';
             // render copy button
             if (entries[i].passcode) {
                 iHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + i + ')">' + entries[i].passcode + '</span>';
             }
+            iHTML += '<a class="shortcut" title="Direct Shortcut" href="' + '' + '"><svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M661.781677 828.365032 579.267595 587.177594C570.726098 562.210926 545.191576 545.703058 519.010014 548.045861L264.736013 571.017253 824.242564 143.903963 661.781677 828.365032ZM857.835024 10.904978 105.706959 585.060706C100.900626 588.729734 96.709919 592.889576 93.165524 598.242621 85.75648 609.432393 82.488074 623.585122 88.340942 639.041243 94.255788 654.661022 106.30893 663.161161 119.467424 666.518991 125.760712 668.12494 131.712968 668.376539 137.782634 667.833405L526.615483 633.039592C513.72255 634.193286 502.732704 627.088445 498.528533 614.799714L624.895371 984.168107C626.877374 989.961509 629.561192 995.333973 633.632077 1000.446903 642.018284 1010.979596 654.589872 1018.437608 671.06296 1017.591467 687.489003 1016.74752 699.192811 1008.095817 706.473207 996.819017 710.004363 991.349516 712.144672 985.757745 713.558351 979.804038L932.157666 59.170658C943.011422 13.459944 895.042872-17.498563 857.835024 10.904978L857.835024 10.904978Z"></path></svg></a>';
             iHTML += '</li>';
         }
         livePortUl.innerHTML = iHTML;

@@ -51,9 +51,31 @@
 .cpfeedback
 {
     display: inline-block;
-    margin-left: 6px;
+    margin-left: 7px;
     font-size: 12px;
     font-weight: 600;
+}
+
+.shortcut
+{
+    margin-left: 6px;
+}
+
+.shortcut:focus
+{
+    outline: 0;
+}
+
+.shortcut > svg
+{
+    fill: #bcbcbc;
+    position: relative;
+    top: 2.5px;
+}
+
+.shortcut > svg:hover
+{
+    fill: #888;
 }
 
 .liveEditBox

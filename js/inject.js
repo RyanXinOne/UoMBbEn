@@ -49,7 +49,7 @@ let LiveSessionsPortEditor = {
     },
 
     getEditBoxHTML(index) {
-        let html = '<div><span>Course</span><input></div><div><span>Tag</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input></div><div>';
+        let html = '<div><span>Course</span><input></div><div><span>Tag</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input placeholder="(optional)"></div><div>';
         if (index !== -1)
             html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.deleteConfig(' + index + ')">Delete</button>';
         html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.confirmConfig(' + index + ')">' + (index !== -1 ? 'Confirm' : 'Add') + '</button>';
