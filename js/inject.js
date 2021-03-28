@@ -62,7 +62,11 @@ let LiveSessionsPortEditor = {
         return '<div class="addbtn" title="Add a New Entry" onclick="LiveSessionsPortEditor.showAddBox()">+</div>';
     },
 
-    editPort() {
+    getDirectShortcutSVG() {
+        return '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M661.781677 828.365032 579.267595 587.177594C570.726098 562.210926 545.191576 545.703058 519.010014 548.045861L264.736013 571.017253 824.242564 143.903963 661.781677 828.365032ZM857.835024 10.904978 105.706959 585.060706C100.900626 588.729734 96.709919 592.889576 93.165524 598.242621 85.75648 609.432393 82.488074 623.585122 88.340942 639.041243 94.255788 654.661022 106.30893 663.161161 119.467424 666.518991 125.760712 668.12494 131.712968 668.376539 137.782634 667.833405L526.615483 633.039592C513.72255 634.193286 502.732704 627.088445 498.528533 614.799714L624.895371 984.168107C626.877374 989.961509 629.561192 995.333973 633.632077 1000.446903 642.018284 1010.979596 654.589872 1018.437608 671.06296 1017.591467 687.489003 1016.74752 699.192811 1008.095817 706.473207 996.819017 710.004363 991.349516 712.144672 985.757745 713.558351 979.804038L932.157666 59.170658C943.011422 13.459944 895.042872-17.498563 857.835024 10.904978L857.835024 10.904978Z"></path></svg>';
+    },
+
+    editLivePort() {
         // enter edit mode of Live Sessions
         this.isLiveEditing = !this.isLiveEditing;
         let liveList = document.getElementById("livePort").getElementsByTagName("ul")[0];
@@ -153,6 +157,7 @@ let LiveSessionsPortEditor = {
             let anchorEle = entry.getElementsByTagName("a")[0];
             anchorEle.setAttribute("href", data.link);
             anchorEle.innerText = data.group + ' - ' + data.title;
+            let editBtn = entry.getElementsByClassName("editbtn")[0];
             // update copy button
             let cpBtns = entry.getElementsByClassName("cpbtn");
             if (cpBtns.length) cpBtns[0].remove();
@@ -162,8 +167,23 @@ let LiveSessionsPortEditor = {
                 cpBtn.setAttribute("title", "Copy Passcode");
                 cpBtn.setAttribute("onclick", "LiveSessionsPortEditor.copyPasscode(" + index + ")");
                 cpBtn.innerText = data.passcode;
-                let editBtn = entry.getElementsByClassName("editbtn")[0];
                 editBtn.parentNode.insertBefore(cpBtn, editBtn);
+            }
+            // update direct shortcut
+            let shortcut = entry.getElementsByClassName("shortcut");
+            if (shortcut.length) shortcut[0].remove();
+            if (data.link.indexOf('zoom.us') > -1) {
+                let roomNo = data.link.match(/j\/(\d+)/);
+                if (roomNo && roomNo.length === 2) {
+                    roomNo = roomNo[1];
+                    let dlink = 'zoommtg://zoom.us/join?confno=' + roomNo + '&pwd=' + data.passcode + '&zc=0';
+                    let shortcut = document.createElement("a");
+                    shortcut.className = "shortcut";
+                    shortcut.setAttribute("title", "Direct Shortcut");
+                    shortcut.setAttribute("href", dlink);
+                    shortcut.innerHTML = this.getDirectShortcutSVG();
+                    editBtn.parentNode.insertBefore(shortcut, editBtn);
+                }
             }
         }
         else {
@@ -174,6 +194,15 @@ let LiveSessionsPortEditor = {
             // update copy button
             if (data.passcode) {
                 newEntryEle.innerHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + addBoxIndex + ')">' + data.passcode + '</span>';
+            }
+            // update direct shortcut
+            if (data.link.indexOf('zoom.us') > -1) {
+                let roomNo = data.link.match(/j\/(\d+)/);
+                if (roomNo && roomNo.length === 2) {
+                    roomNo = roomNo[1];
+                    let dlink = 'zoommtg://zoom.us/join?confno=' + roomNo + '&pwd=' + data.passcode + '&zc=0';
+                    newEntryEle.innerHTML += '<a class="shortcut" title="Direct Shortcut" href="' + dlink + '">' + this.getDirectShortcutSVG() + '</a>';
+                }
             }
             // update edit button and edit box
             newEntryEle.innerHTML += this.getEditButtonHTML(addBoxIndex);
