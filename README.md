@@ -5,3 +5,5 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 + Display UK time.
 + Customize live sessions portal. (Provide direct access to virtual classroom)
 + Hide any portlet as you wish.
++ Use keyboard to control embeded videos.
++ Apply embeded videos in Video Portal.

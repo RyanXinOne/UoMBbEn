@@ -16,9 +16,15 @@
 	"content_scripts": [
         {
 			"matches": ["https://online.manchester.ac.uk/*"],
-			"js": ["js/home.js", "js/player.js"],
+			"js": ["js/home.js"],
 			"css": ["css/Portlet.css", "css/Courses.css", "css/LiveSessions.css"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://video.manchester.ac.uk/*"],
+			"js": ["js/player.js"],
+			"run_at": "document_end",
+			"all_frames": true
 		}
 	],
 	"permissions": ["storage"],
