@@ -53,9 +53,9 @@ function commandHandler(command, data) {
             // render contents of the edit box
             chrome.storage.sync.get(["liveSessions"], (items) => {
                 let index = data;
-                let editBox = document.getElementById("livePort").getElementsByTagName("li")[index].getElementsByClassName("liveEditBox")[0];
+                let editBox = document.querySelector("#livePort > ul > li:nth-child(" + (index + 1) + ") > .liveEditBox");
                 let valuei = JSON.parse(items.liveSessions)[index];
-                let inputBoxes = editBox.getElementsByTagName("input");
+                let inputBoxes = editBox.querySelectorAll("input");
                 inputBoxes[0].value = valuei.group;
                 inputBoxes[1].value = valuei.title;
                 inputBoxes[2].value = valuei.link;
@@ -112,7 +112,7 @@ function initialize() {
 
 function renderCoursesPort() {
     // render Courses Port
-    let courseEle = document.getElementById("CurrentCourses");
+    let courseEle = document.querySelector("#CurrentCourses");
     if (!courseEle){
         setTimeout(renderCoursesPort, 10);
         return false;
@@ -120,16 +120,16 @@ function renderCoursesPort() {
     // render display of current courses
     chrome.storage.sync.get(["disabledCourses"], (items) => {
         let disabled = JSON.parse(items.disabledCourses);
-        let courses = courseEle.getElementsByTagName("ul")[0].getElementsByTagName("li");
+        let courses = courseEle.querySelectorAll("ul > li");
         for (let i = 0; i < courses.length; i++) {
-            let courseTitle = courses[i].getElementsByTagName("a")[0].innerText;
+            let courseTitle = courses[i].querySelector("a").innerText;
             if (disabled.indexOf(courseTitle) > -1) {
                 courses[i].classList.add("hiddenCourse");
                 courses[i].style.display = "none";
             }
         }
         // show edit button of Courses port
-        document.getElementById("column1").getElementsByClassName("edit_controls")[0].innerHTML = '<a class="editModule" title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="CoursesPortEditor.editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
+        document.querySelector("#column1 .edit_controls").innerHTML = '<a class="editModule" title="Manage Course Display" href="javascript:/*edit_module*/void(0);" onclick="CoursesPortEditor.editCourses()"><img alt="Manage Course Display" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a>';
     });
 }
 
@@ -148,10 +148,11 @@ function renderTimePort() {
     let timePort = document.createElement("div");
     timePort.className = "portlet clearfix";
     timePort.innerHTML = '<div class="edit_controls"></div><h2 class="clearfix"><span class="moduleTitle">UK Time</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div class="vtbegenerated"><p id="ukTime" style="text-align:center;font-family:\'Open Sans\',sans-serif;font-weight:bold;font-size:16px;color:rgb(0,0,0);overflow-wrap:break-word;margin:0;"></p></div></div>';
-    document.getElementById("column0").appendChild(timePort);
-    document.getElementById("ukTime").innerText = calculateTime();
+    document.querySelector("#column0").appendChild(timePort);
+    let ukTime = document.querySelector("#ukTime");
+    ukTime.innerText = calculateTime();
     setInterval(() => {
-        document.getElementById("ukTime").innerText = calculateTime();
+        ukTime.innerText = calculateTime();
     }, 1000);
 }
 
@@ -160,10 +161,10 @@ function renderLivePort() {
     let livePort = document.createElement("div");
     livePort.className = "portlet clearfix";
     livePort.innerHTML = '<div class="edit_controls"><a class="editModule" title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editLivePort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement"></ul></div></div>';
-    document.getElementById("column0").appendChild(livePort);
+    document.querySelector("#column0").appendChild(livePort);
     chrome.storage.sync.get(["liveSessions"], (items) => {
         let entries = JSON.parse(items.liveSessions);
-        let livePortUl = document.getElementById("livePort").getElementsByTagName("ul")[0];
+        let livePortUl = document.querySelector("#livePort > ul");
         let iHTML = "";
         for (let i = 0; i < entries.length; i++) {
             iHTML += '<li>';
@@ -174,7 +175,7 @@ function renderLivePort() {
             }
             // create direct shortcut
             if (entries[i].link.indexOf('zoom.us') > -1) {
-                let roomNo = entries[i].link.match(/j\/(\d+)/);
+                let roomNo = entries[i].link.match(/\/j\/(\d+)/);
                 if (roomNo && roomNo.length === 2) {
                     roomNo = roomNo[1];
                     let dlink = 'zoommtg://zoom.us/join?confno=' + roomNo + '&pwd=' + entries[i].passcode + '&zc=0';
@@ -189,13 +190,13 @@ function renderLivePort() {
 
 function renderCollapseOption() {
     // add a collapse button for all boxes to collapse contents
-    let portlets = document.getElementsByClassName("portlet");
+    let portlets = document.querySelectorAll(".portlet");
     chrome.storage.sync.get(["collapsedPortlets"], (items) => {
         let collapsedPortlets = JSON.parse(items.collapsedPortlets);
         for (let i = 0; i < portlets.length; i++) {
-            let headerBar = portlets[i].getElementsByTagName("h2")[0];
-            let title = headerBar.getElementsByClassName("moduleTitle")[0].innerText;
-            let mainbody = portlets[i].getElementsByClassName("collapsible")[0];
+            let headerBar = portlets[i].querySelector("h2");
+            let title = headerBar.querySelector(".moduleTitle").innerText;
+            let mainbody = portlets[i].querySelector(".collapsible");
             // render collapse button
             let collapseBtn = document.createElement("button");
             collapseBtn.className = "collabtn";
@@ -206,7 +207,7 @@ function renderCollapseOption() {
             if (collapsedPortlets.indexOf(title) > -1) {
                 mainbody.style.display = "none";
                 collapseBtn.setAttribute("title", "Expand this Portlet");
-                collapseBtn.getElementsByTagName("svg")[0].classList.add("rotated");
+                collapseBtn.querySelector("svg").classList.add("rotated");
             }
             else {
                 mainbody.style.display = "block";
@@ -221,7 +222,7 @@ function renderCollapseOption() {
 }
 
 
-if (document.getElementsByClassName("moduleTitle").length && document.getElementsByClassName("moduleTitle")[0].innerText === "Welcome") {
+if (document.querySelector(".moduleTitle") && document.querySelector(".moduleTitle").innerText === "Welcome") {
     initialize();
     renderTimePort();
     renderLivePort();
