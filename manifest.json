@@ -17,18 +17,19 @@
         {
 			"matches": ["https://online.manchester.ac.uk/*"],
 			"js": ["js/home.js"],
-			"css": ["css/Portlet.css", "css/Courses.css", "css/LiveSessions.css"],
+			"css": ["css/home-portlet.css", "css/home-courses.css", "css/home-liveSessions.css"],
 			"run_at": "document_end"
 		},
 		{
 			"matches": ["https://video.manchester.ac.uk/*"],
 			"js": ["js/player.js"],
+			"css": ["css/player.css"],
 			"run_at": "document_end",
 			"all_frames": true
 		}
 	],
 	"permissions": ["storage"],
-	"web_accessible_resources": ["js/inject.js"],
+	"web_accessible_resources": ["js/home-inject.js"],
 	"background": { "scripts": ["js/background.js"] },
 	"options_page": "html/options.html",
 	"options_ui": {

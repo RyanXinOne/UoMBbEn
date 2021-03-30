@@ -152,10 +152,12 @@ let EmbededVideoController = {
 
 function replacePaellaWithEmbededVideo() {
     // substitute paella in Video Portal with Embeded Video
-    let embededHTML = document.querySelector("#iframeText").value;
     let paellaContainer = document.querySelector(".paella-container");
+    let embededHTML = document.querySelector("#iframeText").value;
     paellaContainer.innerHTML = embededHTML;
-    paellaContainer.style.padding = 0;
+    paellaContainer.querySelector("iframe").removeAttribute("width");
+    paellaContainer.querySelector("iframe").removeAttribute("height");
+    paellaContainer.querySelector("iframe").className = "paella";
 }
 
 if (window.location.pathname.startsWith("/embedded/")) {

@@ -102,7 +102,7 @@ function initialize() {
     // inject cuntom js
     var temp = document.createElement('script');
     temp.setAttribute('type', 'text/javascript');
-	temp.src = chrome.extension.getURL('js/inject.js');  // get the link like：chrome-extension://xxxxxx/js/inject.js
+	temp.src = chrome.extension.getURL('js/home-inject.js');  // get the link like：chrome-extension://xxxxxx/js/home-inject.js
     document.head.appendChild(temp);
     // register "message" event listener for communication
     window.addEventListener("message", (e) => {
