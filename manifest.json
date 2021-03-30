@@ -1,10 +1,10 @@
 {
 	"manifest_version": 2,
 	"name": "UoM Blackboard Enhancement",
-	"version": "0.0.5",
+	"version": "0.1.0",
 	"description": "Improve your experience of Blackboard of the University of Manchester.",
     "author": "RyanXin",
-	"homepage_url": "https://www.ryanxin.cn",
+	"homepage_url": "https://www.ryanxin.cn/",
 	"omnibox": { "keyword" : "bben" },
 	"icons": { "128": "assets/icon-128.png",
 			   "256": "assets/icon-256.png" },

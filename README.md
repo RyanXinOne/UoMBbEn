@@ -1,16 +1,16 @@
 # UoM Blackboard Enhancement
-This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester.
+This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester, help customize your own blackboard and improve productivity.
 
 # Main Features
 ## Home Page
-+ Hide unncecessary course entries.
++ Hide unnecessary course entries.
 + Display UK time.
 + Customize live sessions portal. (Provide direct access to zoom meeting)
 + Collapse any portlet as you wish.
 
-## Embeded Player
-+ Apply embeded videos in Video Portal (replace original one).
-+ Use keyboard to control embeded videos.
+## Embedded Player
++ Apply embedded player in Video Portal (replace original one).
++ Use keyboard to control embedded video player.
 
 | Key | Function |
 | :-: | :-: |

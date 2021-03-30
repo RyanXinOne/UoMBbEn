@@ -33,47 +33,47 @@ let MouseEventCreator = {
     }
 };
 
-let EmbededVideoController = {
+let EmbeddedVideoController = {
     duration: 0,
 
     init() {
         // initialize controller
         // get video duration
-        EmbededVideoController.duration = readableTimeToSeconds(document.querySelector(".vjs-remaining-time-display").innerText);
-        if (EmbededVideoController.duration === 0) {
-            setTimeout(EmbededVideoController.init, 50);
+        EmbeddedVideoController.duration = readableTimeToSeconds(document.querySelector(".vjs-remaining-time-display").innerText);
+        if (EmbeddedVideoController.duration === 0) {
+            setTimeout(EmbeddedVideoController.init, 50);
         } else {
             // bind keys to control the player
             document.onkeydown = (event) => {
                 switch (event.key) {
                     case " ":
                         // Space: pause or play the video
-                        EmbededVideoController.togglePlay();
+                        EmbeddedVideoController.togglePlay();
                         break;
                     case "ArrowRight":
                         // →: forward
-                        EmbededVideoController.forward();
+                        EmbeddedVideoController.forward();
                         break;
                     case "ArrowLeft":
                         // ←: backward
-                        EmbededVideoController.backward();
+                        EmbeddedVideoController.backward();
                         break;
                     case "ArrowUp":
                         // ↑: boost speed
-                        EmbededVideoController.speedRate(true);
+                        EmbeddedVideoController.speedRate(true);
                         break;
                     case "ArrowDown":
                         // ↓: reduce speed
-                        EmbededVideoController.speedRate(false);
+                        EmbeddedVideoController.speedRate(false);
                         break;
                     case "Enter":
                         // Enter: fullscreen control
-                        EmbededVideoController.toggleFullScreen();
+                        EmbeddedVideoController.toggleFullScreen();
                         break;
                     case "c":
                     case "C":
                         // c: cation control
-                        EmbededVideoController.toggleCaption();
+                        EmbeddedVideoController.toggleCaption();
                         break;
                     default:
                         return true;
@@ -106,8 +106,8 @@ let EmbededVideoController = {
         let scrollBar = document.querySelector(".vjs-progress-control > div");
         let currProgress = parseFloat(scrollBar.getAttribute("aria-valuenow")) / 100;
         if (!isNaN(currProgress)) {
-            let tarProgress = Math.min(currProgress + time / EmbededVideoController.duration, 1);
-            EmbededVideoController.jumpTo(tarProgress);
+            let tarProgress = Math.min(currProgress + time / EmbeddedVideoController.duration, 1);
+            EmbeddedVideoController.jumpTo(tarProgress);
         }
     },
 
@@ -116,8 +116,8 @@ let EmbededVideoController = {
         let scrollBar = document.querySelector(".vjs-progress-control > div");
         let currProgress = parseFloat(scrollBar.getAttribute("aria-valuenow")) / 100;
         if (!isNaN(currProgress)) {
-            let tarProgress = Math.max(currProgress - time / EmbededVideoController.duration, 0);
-            EmbededVideoController.jumpTo(tarProgress);
+            let tarProgress = Math.max(currProgress - time / EmbeddedVideoController.duration, 0);
+            EmbeddedVideoController.jumpTo(tarProgress);
         }
     },
     
@@ -150,18 +150,18 @@ let EmbededVideoController = {
     }
 };
 
-function replacePaellaWithEmbededVideo() {
-    // substitute paella in Video Portal with Embeded Video
+function replacePaellaWithEmbeddedVideo() {
+    // substitute paella in Video Portal with Embedded Video
     let paellaContainer = document.querySelector(".paella-container");
-    let embededHTML = document.querySelector("#iframeText").value;
-    paellaContainer.innerHTML = embededHTML;
+    let embeddedHTML = document.querySelector("#iframeText").value;
+    paellaContainer.innerHTML = embeddedHTML;
     paellaContainer.querySelector("iframe").removeAttribute("width");
     paellaContainer.querySelector("iframe").removeAttribute("height");
     paellaContainer.querySelector("iframe").className = "paella";
 }
 
 if (window.location.pathname.startsWith("/embedded/")) {
-    EmbededVideoController.init();
+    EmbeddedVideoController.init();
 } else if (document.querySelector(".paella-container")) {
-    replacePaellaWithEmbededVideo();
+    replacePaellaWithEmbeddedVideo();
 }
