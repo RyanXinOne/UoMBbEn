@@ -1,4 +1,6 @@
 # UoM Blackboard Enhancement
+![UoMBbEn icon](https://raw.githubusercontent.com/RyanXinOne/UoMBbEn/master/assets/icon-256.png)
+
 This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester, help customize your own blackboard and improve productivity.
 
 # Main Features
@@ -24,3 +26,6 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 
 ## Utility
 + Go to external link in new tab directly.
+
+# Install
+Chrome/Edge 👉 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/uom-blackboard-enhancemen/hfemolalfcjcgompdfddabemkdpbgjki)
