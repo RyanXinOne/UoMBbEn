@@ -1,8 +1,8 @@
 
-function getCoordinateX(element) {
-    // 获取一个元素的x坐标
-    var actualLeft = element.offsetLeft;
-    var current = element.offsetParent;
+function getCoordinateX(ele) {
+    // get the absolute coordinate X of an element
+    let actualLeft = ele.offsetLeft;
+    let current = ele.offsetParent;
     while (current !== null) {
         actualLeft += current.offsetLeft;
         current = current.offsetParent;

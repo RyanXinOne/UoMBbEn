@@ -1,5 +1,5 @@
 # UoM Blackboard Enhancement
-<div style="text-align:center;"><img src="https://raw.githubusercontent.com/RyanXinOne/UoMBbEn/master/assets/icon-128.png" alt="UoMBbEn icon"/></div>
+<div align="center"><img src="https://raw.githubusercontent.com/RyanXinOne/UoMBbEn/master/assets/icon-128.png" alt="UoMBbEn icon"/></div>
 
 This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester, help customize your own blackboard and improve productivity.
 
@@ -26,6 +26,8 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 
 ## Utility
 + Go to external link in new tab directly.
++ Open links of file content in new tab.
++ Open embed pdf in browser directly.
 
 # Install
 Chrome/Edge 👉 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/uom-blackboard-enhancemen/hfemolalfcjcgompdfddabemkdpbgjki)
