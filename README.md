@@ -19,8 +19,8 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 | Space | Play/Pause |
 | → | Forward 10 seconds |
 | ← | Backward 10 seconds |
-| ↑ | Boost speed |
-| ↓ | Reduce speed |
+| ↑ | Increase playback speed |
+| ↓ | Decrease playback speed |
 | Enter | Enter/Exit full screen |
 | c | Turn captions on/off |
 
@@ -31,3 +31,6 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 
 # Install
 Chrome/Edge 👉 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/uom-blackboard-enhancemen/hfemolalfcjcgompdfddabemkdpbgjki)
+
+# Feedback
+If you have any ideas regarding new features or bugs/improvement, do not hesitate to leave a reply or [contact me](mailto://xyz@ryanxin.cn) directly!

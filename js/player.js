@@ -59,11 +59,11 @@ let EmbeddedVideoController = {
                         EmbeddedVideoController.backward();
                         break;
                     case "ArrowUp":
-                        // ↑: boost speed
+                        // ↑: increase playback speed
                         EmbeddedVideoController.speedRate(true);
                         break;
                     case "ArrowDown":
-                        // ↓: reduce speed
+                        // ↓: decrease playback speed
                         EmbeddedVideoController.speedRate(false);
                         break;
                     case "Enter":
@@ -122,7 +122,7 @@ let EmbeddedVideoController = {
     },
     
     speedRate(action) {
-        // control playback rate. action value: true(accelerate), false(slow down)
+        // control playback speed rate. action value: true(increase), false(decrease)
         let speedOptions = ["2x", "1.5x", "1.25x", "1x", "0.75x"];
         let playbackRateMenu = document.querySelector(".vjs-playback-rate");
         let currSpeed = playbackRateMenu.querySelector(".vjs-playback-rate-value").innerText;
