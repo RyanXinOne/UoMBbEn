@@ -1,3 +1,8 @@
+# v0.1.2 `13/04/2021`
+## Add Features
++ Other Utilities
++ + Jump to in-page hash anchor directly.
+
 # v0.1.1 `02/04/2021`
 ## Add Features
 + Other Utilities

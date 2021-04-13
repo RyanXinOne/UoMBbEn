@@ -28,6 +28,7 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 + Go to external link in new tab directly.
 + Open links of file content in new tab.
 + Open embed pdf in browser directly.
++ Jump to in-page hash anchor directly.
 
 # Install
 Chrome/Edge 👉 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/uom-blackboard-enhancemen/hfemolalfcjcgompdfddabemkdpbgjki)

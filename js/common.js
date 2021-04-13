@@ -5,6 +5,7 @@ let HyperLinkProcessor = {
         for (let i = 0; i < anchors.length; i++) {
             HyperLinkProcessor.removeContentWrapper(anchors[i]);
             HyperLinkProcessor.openFileContentInNewTab(anchors[i]);
+            HyperLinkProcessor.hashJump(anchors[i]);
         }
     },
 
@@ -24,6 +25,15 @@ let HyperLinkProcessor = {
         let attr = anchor.getAttribute("onclick");
         if (attr && attr.startsWith("this.href='/webapps/blackboard/execute/content/file")) {
             anchor.setAttribute("target", "_blank");
+        }
+    },
+
+    hashJump(anchor) {
+        // jump to in-page hash anchor directly
+        let pureHref = window.location.href.substr(0, window.location.href.length - window.location.hash.length);
+        let aHref = anchor.getAttribute("href");
+        if (aHref && aHref.startsWith(pureHref)) {
+            anchor.setAttribute("href", aHref.substring(pureHref.length));
         }
     }
 };
