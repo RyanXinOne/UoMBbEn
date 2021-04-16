@@ -11,6 +11,7 @@
 
 # v0.1.0 `30/03/2021`
 ## Initial Features
+Written by native JavaScript to ensure high efficiency and reliability.
 + Customize Home Page
 + + Hide unnecessary course entries.
 + + Display UK time.
@@ -21,3 +22,6 @@
 + + Use keyboard to control embedded video player.
 + Other Utilities
 + + Go to external link in new tab directly.
++ Accessibility
++ + Sync layout and configuration with your browser account automatically.
++ + Auto update with long-term support.

@@ -3,6 +3,8 @@
 
 This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester, help customize your own blackboard and improve productivity.
 
+It is quite light-weight and written by native JavaScript to ensure high efficiency and reliability.
+
 # Main Features
 ## Home Page
 + Hide unnecessary course entries.
@@ -29,6 +31,10 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 + Open links of file content in new tab.
 + Open embed pdf in browser directly.
 + Jump to in-page hash anchor directly.
+
+## Accessibility
++ Sync layout and configuration with your browser account automatically.
++ Auto update with long-term support.
 
 # Install
 Chrome/Edge 👉 Go to [Chrome Web Store](https://chrome.google.com/webstore/detail/uom-blackboard-enhancemen/hfemolalfcjcgompdfddabemkdpbgjki)
