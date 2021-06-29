@@ -1,39 +1,39 @@
 {
-	"manifest_version": 2,
-	"name": "UoM Blackboard Enhancement",
-	"version": "0.1.2",
-	"description": "Improve your experience of Blackboard of the University of Manchester.",
+    "manifest_version": 2,
+    "name": "UoM Blackboard Enhancement",
+    "version": "0.1.2",
+    "description": "Improve your experience of Blackboard of the University of Manchester.",
     "author": "RyanXin",
-	"homepage_url": "https://www.ryanxin.cn/",
-	"omnibox": { "keyword" : "bben" },
-	"icons": { "128": "assets/icon-128.png",
-			   "256": "assets/icon-256.png" },
-	"page_action": {
-		"default_icon": "assets/icon-128.png",
-		"default_title": "UoM Blackboard Enhancement",
-		"default_popup": "html/popup.html"
-	},
-	"content_scripts": [
+    "homepage_url": "https://www.ryanxin.cn/",
+    "omnibox": { "keyword" : "bben" },
+    "icons": { "128": "/assets/icon-128.png",
+               "256": "/assets/icon-256.png" },
+    "page_action": {
+        "default_icon": "/assets/icon-128.png",
+        "default_title": "UoM Blackboard Enhancement",
+        "default_popup": "/html/popup.html"
+    },
+    "content_scripts": [
         {
-			"matches": ["https://online.manchester.ac.uk/*"],
-			"js": ["js/home.js", "js/common.js"],
-			"css": ["css/home-portlet.css", "css/home-courses.css", "css/home-liveSessions.css"],
-			"run_at": "document_end"
-		},
-		{
-			"matches": ["https://video.manchester.ac.uk/*"],
-			"js": ["js/player.js"],
-			"css": ["css/player.css"],
-			"run_at": "document_end",
-			"all_frames": true
-		}
-	],
-	"permissions": ["storage"],
-	"web_accessible_resources": ["js/home-inject.js"],
-	"background": { "scripts": ["js/background.js"] },
-	"options_page": "html/options.html",
-	"options_ui": {
-		"page": "html/options.html",
-		"chrome_style": true
-	}
+            "matches": ["https://online.manchester.ac.uk/*"],
+            "js": ["/js/home.js", "/js/common.js"],
+            "css": ["/css/home-portlet.css", "/css/home-courses.css", "/css/home-liveSessions.css"],
+            "run_at": "document_end"
+        },
+        {
+            "matches": ["https://video.manchester.ac.uk/*"],
+            "js": ["/js/player.js"],
+            "css": ["/css/player.css"],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+    ],
+    "permissions": ["storage", "declarativeContent"],
+    "web_accessible_resources": ["/js/home-inject.js"],
+    "background": { "scripts": ["/js/background.js"] },
+    "options_page": "/html/options.html",
+    "options_ui": {
+        "page": "/html/options.html",
+        "chrome_style": true
+    }
 }

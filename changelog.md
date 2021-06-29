@@ -1,3 +1,8 @@
+# v0.1.3 `29/06/2021`
+## Add Features
++ Popup Window (Configuration Page)
++ + User configuration can be imported/exported for migration easily.
+
 # v0.1.2 `13/04/2021`
 ## Add Features
 + Other Utilities

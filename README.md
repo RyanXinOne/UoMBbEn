@@ -32,6 +32,9 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 + Open embed pdf in browser directly.
 + Jump to in-page hash anchor directly.
 
+## Popup Window (Configuration Page)
++ User configuration can be imported/exported for migration easily.
+
 ## Accessibility
 + Sync layout and configuration with your browser account automatically.
 + Auto update with long-term support.
