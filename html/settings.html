@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UoM Blackboard Enhancement</title>
+    <link rel="stylesheet" href="/css/settings.css">
+    <script src="/js/settings.js"></script>
+</head>
+<body>
+    <header>
+        <a target="_blank" href="https://www.ryanxin.cn/">
+            <img id="logo" alt="logo" title="UoM Blackboard Enhancement" src="/assets/icon-128.png">
+        </a>
+        Settings
+    </header>
+    <main>
+        <div id="setting-page">
+            <div id="conf-bar" class="setting-row">
+                Configuration
+                <button>Export</button>
+                <button>Import</button>
+                <button>Reset</button>
+            </div>
+        </div>
+
+        <div id="conf-export-page" style="display: none;">
+            <input readonly>
+            <button>Copy</button>
+            <button>Back</button>
+        </div>
+
+        <div id="conf-import-page" style="display: none;">
+            <input placeholder="Paste configurations here">
+            <button>Import</button>
+            <button>Back</button>
+        </div>
+
+        <div id="conf-reset-page" style="display: none;">
+            Are you sure to reset all configurations?
+            <button>Yes</button>
+            <button>Cancel</button>
+        </div>
+    </main>
+</body>
+</html>

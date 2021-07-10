@@ -92,18 +92,17 @@ function commandHandler(command, data) {
 function initialize() {
     // initialize chrome storage
     chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets"], (items) => {
-        if (!items.disabledCourses)
-            chrome.storage.sync.set({ "disabledCourses": JSON.stringify([]) });
-        if (!items.liveSessions)
-            chrome.storage.sync.set({ "liveSessions": JSON.stringify([]) });
-        if (!items.collapsedPortlets)
-            chrome.storage.sync.set({ "collapsedPortlets": JSON.stringify([]) });
+        let ini_conf = {};
+        if (!items.disabledCourses) ini_conf.disabledCourses = JSON.stringify([]);
+        if (!items.liveSessions) ini_conf.liveSessions = JSON.stringify([]);
+        if (!items.collapsedPortlets) ini_conf.collapsedPortlets = JSON.stringify([]);
+        chrome.storage.sync.set(ini_conf);
     });
     // inject cuntom js
-    var temp = document.createElement('script');
-    temp.setAttribute('type', 'text/javascript');
-	temp.src = chrome.extension.getURL('js/home-inject.js');  // get the link like：chrome-extension://xxxxxx/js/home-inject.js
-    document.head.appendChild(temp);
+    let inject_script = document.createElement('script');
+    inject_script.setAttribute('type', 'text/javascript');
+	inject_script.src = chrome.extension.getURL('js/home-inject.js');  // get the link like：chrome-extension://xxxxxx/js/home-inject.js
+    document.head.appendChild(inject_script);
     // register "message" event listener for communication
     window.addEventListener("message", (e) => {
         commandHandler(e.data.command, e.data.data);

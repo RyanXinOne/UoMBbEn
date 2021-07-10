@@ -1,38 +1,35 @@
 body {
-    width: 600px;
-    height: 500px;
+    width: 300px;
+    height: 400px;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 header {
-    text-align: center;
-    padding: 10px 0;
-    border-bottom: 2px solid rgb(211, 210, 210);
-}
-
-#title {
-    font-size: 34px;
+    height: 37px;
+    padding: 10px 25px 7px;
+    margin: 0;
+    border-bottom: 2px solid #d2d2d2;
+    font-size: 18px;
     font-weight: bold;
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
-    color: rgb(96, 201, 243);
+    color: #555;
+    line-height: 37px;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
 }
 
-#logo {
-    display: inline;
+header #logo {
+    float: left;
     width: 32px;
     height: 32px;
     position: relative;
-    top: 3px;
+    top: 2px;
+    margin-right: 6px;
 }
 
 main {
-    padding: 20px 30px;
-}
-
-#conf-bar {
-    display: inline-block;
+    padding: 15px 20px;
+    font-size: 14px;
 }
