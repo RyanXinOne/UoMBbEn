@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UoM Blackboard Enhancement</title>
+    <title>Settings - UoM Blackboard Enhancement</title>
     <link rel="stylesheet" href="/css/settings.css">
     <script src="/js/settings.js"></script>
 </head>
@@ -16,9 +16,9 @@
         Settings
     </header>
     <main>
-        <div id="setting-page">
+        <div id="settings-page">
             <div id="conf-bar" class="setting-row">
-                Configuration
+                <span>Configuration</span>
                 <button>Export</button>
                 <button>Import</button>
                 <button>Reset</button>
@@ -26,21 +26,27 @@
         </div>
 
         <div id="conf-export-page" style="display: none;">
-            <input readonly>
-            <button>Copy</button>
-            <button>Back</button>
+            <textarea readonly></textarea>
+            <div class="conf-btns">
+                <button>Copy</button>
+                <button>Back</button>
+            </div>
         </div>
 
         <div id="conf-import-page" style="display: none;">
-            <input placeholder="Paste configurations here">
-            <button>Import</button>
-            <button>Back</button>
+            <textarea placeholder="Paste your configurations here"></textarea>
+            <div class="conf-btns">
+                <button>Import</button>
+                <button>Back</button>
+            </div>
         </div>
 
         <div id="conf-reset-page" style="display: none;">
-            Are you sure to reset all configurations?
-            <button>Yes</button>
-            <button>Cancel</button>
+            <div>Are you sure to reset all configurations?</div>
+            <div class="conf-btns">
+                <button>Yes</button>
+                <button>Cancel</button>
+            </div>
         </div>
     </main>
 </body>

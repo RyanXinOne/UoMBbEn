@@ -1,7 +1,11 @@
+# v0.1.3.2 `11/07/2021`
+## Improvement
++ Improve settings page and migration system.
+
 # v0.1.3 `29/06/2021`
 ## Add Features
-+ Popup Window (Configuration Page)
-+ + User configuration can be imported/exported for migration easily.
++ Settings Page (Popup Window)
++ + User configuration can be imported/exported for migration.
 
 # v0.1.2 `13/04/2021`
 ## Add Features

@@ -34,7 +34,6 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 
 ## Settings Page (Popup Window)
 + User configuration can be imported/exported for migration.
-+ Turn on/off various features.
 
 ## Accessibility
 + Sync layout and configuration with your browser account automatically.

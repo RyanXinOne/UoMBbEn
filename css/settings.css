@@ -1,5 +1,5 @@
 body {
-    width: 300px;
+    width: 320px;
     height: 400px;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -32,4 +32,20 @@ header #logo {
 main {
     padding: 15px 20px;
     font-size: 14px;
+}
+
+#conf-export-page textarea,
+#conf-import-page textarea {
+    display: block;
+    width: 97.5%;
+    max-width: 97.5%;
+    min-width: 20%;
+    height: 19em;
+    min-height: 1em;
+    font-size: 13.5px;
+}
+
+.conf-btns {
+    text-align: right;
+    margin-top: 5px;
 }
