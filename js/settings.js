@@ -1,40 +1,51 @@
 window.onload = () => {
-    // register events for buttons
-    let btns;
+    register_click_events();
+};
+
+// register events for buttons
+function register_click_events() {
     // settings page buttons
-    btns = document.querySelectorAll("#conf-bar button");
+    let btns = document.querySelectorAll('#conf-bar button');
     btns[0].onclick = show_conf_export_page;
     btns[1].onclick = show_conf_import_page;
     btns[2].onclick = show_conf_reset_page;
+    document.getElementById('account-info-btn').onclick = show_account_info_page;
+    let switch_btn = document.getElementById('auto-login-btn');
+    switch_btn.onclick = () => { toggle_switch(switch_btn) };
 
     // conf export page buttons
-    btns = document.querySelectorAll("#conf-export-page button");
+    btns = document.querySelectorAll('#conf-export-page button');
     btns[0].onclick = copy_exported_conf;
     btns[1].onclick = () => { back_to_settings_page('conf-export-page') };
 
     // conf import page buttons
-    btns = document.querySelectorAll("#conf-import-page button");
+    btns = document.querySelectorAll('#conf-import-page button');
     btns[0].onclick = import_user_conf;
     btns[1].onclick = () => { back_to_settings_page('conf-import-page') };
 
     // conf reset page buttons
-    btns = document.querySelectorAll("#conf-reset-page button");
+    btns = document.querySelectorAll('#conf-reset-page button');
     btns[0].onclick = reset_user_conf;
     btns[1].onclick = () => { back_to_settings_page('conf-reset-page') };
-};
+
+    // account info page buttons
+    btns = document.querySelectorAll('#account-info-page button');
+    btns[0].onclick = save_login_info;
+    btns[1].onclick = () => { back_to_settings_page('account-info-page') };
+}
 
 // display conf exporting page
 function show_conf_export_page() {
-    let copy_btn = document.querySelector("#conf-export-page button");
-    let conf_output = document.querySelector("#conf-export-page textarea");
+    let copy_btn = document.querySelector('#conf-export-page button');
+    let conf_output = document.querySelector('#conf-export-page textarea');
     // switch page
     document.getElementById('settings-page').style.display = 'none';
-    conf_output.value = "";
-    copy_btn.innerText = "Copy";
+    conf_output.value = '';
+    copy_btn.innerText = 'Copy';
     copy_btn.disabled = true;
     document.getElementById('conf-export-page').style.display = 'block';
     // get configuration
-    chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets"], (items) => {
+    chrome.storage.sync.get(['disabledCourses', 'liveSessions', 'collapsedPortlets'], (items) => {
         for (let key in items) {
             items[key] = JSON.parse(items[key]);
         }
@@ -45,13 +56,13 @@ function show_conf_export_page() {
 
 // copy configurations
 function copy_exported_conf() {
-    let copy_btn = document.querySelector("#conf-export-page button");
-    let conf_output = document.querySelector("#conf-export-page textarea");
+    let copy_btn = document.querySelector('#conf-export-page button');
+    let conf_output = document.querySelector('#conf-export-page textarea');
     conf_output.select();
-    if (!document.execCommand("copy")) {
-        console.log("Failed to copy texts.");
+    if (!document.execCommand('copy')) {
+        console.log('Failed to copy texts.');
     } else {
-        copy_btn.innerText = "Copied";
+        copy_btn.innerText = 'Copied';
         copy_btn.disabled = true;
     }
     window.getSelection().removeAllRanges();
@@ -59,13 +70,13 @@ function copy_exported_conf() {
 
 // display conf importing page
 function show_conf_import_page() {
-    let import_btn = document.querySelector("#conf-import-page button");
-    let conf_input = document.querySelector("#conf-import-page textarea");
+    let import_btn = document.querySelector('#conf-import-page button');
+    let conf_input = document.querySelector('#conf-import-page textarea');
     // switch page
     document.getElementById('settings-page').style.display = 'none';
-    conf_input.value = "";
+    conf_input.value = '';
     conf_input.disabled = false;
-    import_btn.innerText = "Import";
+    import_btn.innerText = 'Import';
     import_btn.disabled = false;
     document.getElementById('conf-import-page').style.display = 'block';
     conf_input.focus();
@@ -73,8 +84,8 @@ function show_conf_import_page() {
 
 // read conf input and update chrome storage
 function import_user_conf() {
-    let import_btn = document.querySelector("#conf-import-page button");
-    let conf_input = document.querySelector("#conf-import-page textarea");
+    let import_btn = document.querySelector('#conf-import-page button');
+    let conf_input = document.querySelector('#conf-import-page textarea');
     // get user input and import configuration
     let items;
     let error = null;
@@ -84,7 +95,7 @@ function import_user_conf() {
         error = e;
     } finally {
         if (!(error === null && Object.prototype.toString.call(items) === Object.prototype.toString.call({}))) {
-            console.log("Invalid configuration. " + (error !== null ? error : ""));
+            console.log('Invalid configuration. ' + (error !== null ? error : ''));
             return;
         }
     }
@@ -98,7 +109,7 @@ function import_user_conf() {
         user_conf.collapsedPortlets = JSON.stringify(items.collapsedPortlets);
 
     chrome.storage.sync.set(user_conf, () => {
-        import_btn.innerText = "Imported";
+        import_btn.innerText = 'Imported';
         import_btn.disabled = true;
         conf_input.disabled = true;
     });
@@ -108,28 +119,40 @@ function import_user_conf() {
 function show_conf_reset_page() {
     // switch page
     document.getElementById('settings-page').style.display = 'none';
-    let reset_btn = document.querySelector("#conf-reset-page button");
-    let cancel_btn = document.querySelector("#conf-reset-page button:last-child");
-    reset_btn.innerText = "Yes";
+    let reset_btn = document.querySelector('#conf-reset-page button');
+    let cancel_btn = document.querySelector('#conf-reset-page button:last-child');
+    reset_btn.innerText = 'Yes';
     reset_btn.disabled = false;
-    cancel_btn.innerText = "Cancel";
+    cancel_btn.innerText = 'Cancel';
     document.getElementById('conf-reset-page').style.display = 'block';
 }
 
 // reset user conf into initial state
 function reset_user_conf() {
-    let reset_btn = document.querySelector("#conf-reset-page button");
-    let cancel_btn = document.querySelector("#conf-reset-page button:last-child");
+    let reset_btn = document.querySelector('#conf-reset-page button');
+    let cancel_btn = document.querySelector('#conf-reset-page button:last-child');
     let ini_conf = {
         disabledCourses: JSON.stringify([]),
         liveSessions: JSON.stringify([]),
         collapsedPortlets: JSON.stringify([])
     };
     chrome.storage.sync.set(ini_conf, () => {
-        reset_btn.innerText = "Reset";
+        reset_btn.innerText = 'Reset';
         reset_btn.disabled = true;
-        cancel_btn.innerText = "Back";
+        cancel_btn.innerText = 'Back';
     });
+}
+
+// display account info page
+function show_account_info_page() {
+    // switch page
+    document.getElementById('settings-page').style.display = 'none';
+    document.getElementById('account-info-page').style.display = 'block';
+}
+
+// save login information
+function save_login_info() {
+    
 }
 
 // display settings page
@@ -137,4 +160,15 @@ function back_to_settings_page(pageId) {
     // switch page
     document.getElementById(pageId).style.display = 'none';
     document.getElementById('settings-page').style.display = 'block';
+}
+
+// toggle the display of the switch button, return on/off state
+function toggle_switch(bswitch) {
+    if (bswitch.classList.contains('on')) {
+        bswitch.classList.remove('on');
+        return false;
+    } else {
+        bswitch.classList.add('on');
+        return true;
+    }
 }

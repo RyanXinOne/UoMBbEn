@@ -23,19 +23,24 @@
                 <button>Import</button>
                 <button>Reset</button>
             </div>
+            <div class="setting-row">
+                Auto Log-in
+                <button id="account-info-btn">Account Info</button>
+                <div id="auto-login-btn" class="switch"><span></span></div>
+            </div>
         </div>
 
         <div id="conf-export-page" style="display: none;">
             <textarea readonly></textarea>
-            <div class="conf-btns">
+            <div class="btns-bar">
                 <button>Copy</button>
                 <button>Back</button>
             </div>
         </div>
 
         <div id="conf-import-page" style="display: none;">
-            <textarea placeholder="Paste your configurations here"></textarea>
-            <div class="conf-btns">
+            <textarea placeholder="Paste your configurations here."></textarea>
+            <div class="btns-bar">
                 <button>Import</button>
                 <button>Back</button>
             </div>
@@ -43,9 +48,19 @@
 
         <div id="conf-reset-page" style="display: none;">
             <div>Are you sure to reset all configurations?</div>
-            <div class="conf-btns">
+            <div class="btns-bar">
                 <button>Yes</button>
                 <button>Cancel</button>
+            </div>
+        </div>
+
+        <div id="account-info-page" style="display: none;">
+            <div>Log-in Information</div>
+            <div class="info-row">Username:<input placeholder="UoM Username"></div>
+            <div class="info-row">Password:<input type="password" placeholder="Stored in local"></div>
+            <div class="btns-bar">
+                <button>Save</button>
+                <button>Back</button>
             </div>
         </div>
     </main>
