@@ -113,6 +113,9 @@ div.btns-bar {
     height: 10px;
     border-radius: 10px;
     background-color: #2b2b2b;
+}
+
+.switch > span.animated {
     transition: left .2s ease;
 }
 

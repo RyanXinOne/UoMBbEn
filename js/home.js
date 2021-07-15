@@ -91,11 +91,12 @@ function commandHandler(command, data) {
 
 function initialize() {
     // initialize chrome storage
-    chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets"], (items) => {
+    chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets", "autoLogin"], (items) => {
         let ini_conf = {};
         if (!items.disabledCourses) ini_conf.disabledCourses = JSON.stringify([]);
         if (!items.liveSessions) ini_conf.liveSessions = JSON.stringify([]);
         if (!items.collapsedPortlets) ini_conf.collapsedPortlets = JSON.stringify([]);
+        if (!items.autoLogin) ini_conf.autoLogin = JSON.stringify({ enabled: false, username: '', password: '' });
         chrome.storage.sync.set(ini_conf);
     });
     // inject cuntom js
