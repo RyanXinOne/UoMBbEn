@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "UoM Blackboard Enhancement",
-    "version": "0.1.3.4",
+    "version": "0.1.3.5",
     "description": "Improve your experience of Blackboard of the University of Manchester.",
     "author": "RyanXin",
     "homepage_url": "https://www.ryanxin.cn/",
@@ -26,11 +26,19 @@
             "css": ["/css/player.css"],
             "run_at": "document_end",
             "all_frames": true
+        },
+        {
+            "matches": ["https://login.manchester.ac.uk/*"],
+            "js": ["/js/autologin.js"],
+            "run_at": "document_end"
         }
     ],
     "permissions": ["storage", "declarativeContent"],
     "web_accessible_resources": ["/js/home-inject.js"],
-    "background": { "scripts": ["/js/background.js"] },
+    "background": {
+        "scripts": ["/js/background.js"],
+        "persistent": false
+    },
     "options_page": "/html/settings.html",
     "options_ui": {
         "page": "/html/settings.html",

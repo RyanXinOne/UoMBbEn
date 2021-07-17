@@ -90,15 +90,6 @@ function commandHandler(command, data) {
 }
 
 function initialize() {
-    // initialize chrome storage
-    chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets", "autoLogin"], (items) => {
-        let ini_conf = {};
-        if (!items.disabledCourses) ini_conf.disabledCourses = JSON.stringify([]);
-        if (!items.liveSessions) ini_conf.liveSessions = JSON.stringify([]);
-        if (!items.collapsedPortlets) ini_conf.collapsedPortlets = JSON.stringify([]);
-        if (!items.autoLogin) ini_conf.autoLogin = JSON.stringify({ enabled: false, username: '', password: '' });
-        chrome.storage.sync.set(ini_conf);
-    });
     // inject cuntom js
     let inject_script = document.createElement('script');
     inject_script.setAttribute('type', 'text/javascript');
@@ -222,10 +213,15 @@ function renderCollapseOption() {
 }
 
 
+// home page of blackboard
 if (document.querySelector(".moduleTitle") && document.querySelector(".moduleTitle").innerText === "Welcome") {
     initialize();
     renderTimePort();
     renderLivePort();
     renderCoursesPort();
     renderCollapseOption();
+}
+// auto skip sign-on error page
+else if (document.querySelector("#error_message_title") && document.querySelector("#error_message_title").innerText === "Sign On Error!") {
+    document.querySelector("#error_message_button > a").click();
 }

@@ -31,9 +31,11 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 + Open links of file content in new tab.
 + Open embed pdf in browser directly.
 + Jump to in-page hash anchor directly.
++ (new) Auto Log in to UoM Login System.
 
 ## Settings Page (Popup Window)
 + User configuration can be imported/exported for migration.
++ Turn on/off switches for various features.
 
 ## Accessibility
 + Sync layout and configuration with your browser account automatically.

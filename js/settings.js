@@ -17,11 +17,9 @@ function render_settings_page() {
         set_switch_state(document.getElementById('auto-login-btn'), account_info.enabled);
 
         // enable animation
-        if (switch_btns.length > 0) {
-            switch_btns[0].scrollTop;   // force browser to render DOM
-            for (let i = 0; i < switch_btns.length; i++) {
-                switch_btns[i].classList.add('animated');
-            }
+        document.querySelector('body').clientTop;   // force browser to render DOM
+        for (let i = 0; i < switch_btns.length; i++) {
+            switch_btns[i].classList.add('animated');
         }
     });
 }
