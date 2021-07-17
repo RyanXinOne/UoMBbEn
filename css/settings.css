@@ -1,11 +1,13 @@
 body {
     width: 320px;
     height: 400px;
+    overflow-x: hidden;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 header {
+    width: 200%;
     height: 37px;
     padding: 10px 25px 7px;
     margin: 0;

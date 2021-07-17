@@ -1,3 +1,9 @@
+# v0.1.4 `18/07/2021`
+## Add Features
++ Auto log in to UoM Login System.
+## Improvement
++ Beautify settings page.
+
 # v0.1.3.2 `11/07/2021`
 ## Improvement
 + Improve settings page and migration system.

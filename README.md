@@ -31,10 +31,11 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 + Open links of file content in new tab.
 + Open embed pdf in browser directly.
 + Jump to in-page hash anchor directly.
-+ (new) Auto Log in to UoM Login System.
++ (new) Auto log in to UoM Login System. (Your account information is stored locally)
 
-## Settings Page (Popup Window)
-+ User configuration can be imported/exported for migration.
+## Settings Page (Popup)
++ Import/Export your user configuration for migration.
++ Configure account information for auto login.
 + Turn on/off switches for various features.
 
 ## Accessibility
