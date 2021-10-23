@@ -11,11 +11,15 @@ function getCoordinateX(ele) {
 }
 
 function readableTimeToSeconds(time) {
-    // transform time xx:xx into seconds
-    time = time.match(/(\d+):(\d+)/)
-    let min = parseInt(time[1]);
-    let sec = parseInt(time[2]);
-    return 60 * min + sec;
+    // transform time xx:xx:xx into seconds
+    time = time.match(/\d+/g);
+    let secs = 0;
+    if (time !== null) {
+        for (let i = 0; i < time.length; i++) {
+            secs = 60 * secs + parseInt(time[i]);
+        }
+    }
+    return secs;
 }
 
 let MouseEventCreator = {
@@ -93,31 +97,41 @@ let EmbeddedVideoController = {
         document.querySelector(".vjs-control-bar > button:last-child").dispatchEvent(MouseEventCreator.click());
     },
 
-    jumpTo(progress) {
-        // jump to the specific progress(0-1)
-        let scrollBar = document.querySelector(".vjs-progress-control > div");
-        let absX = getCoordinateX(scrollBar) + progress * scrollBar.clientWidth;
-        scrollBar.dispatchEvent(MouseEventCreator.down(absX));
-        scrollBar.dispatchEvent(MouseEventCreator.up());
+    jumpTo(progress, flag) {
+        // jump to the specific progress(0-1), flag indicates forward (true) or backward (false)
+        let playProgress = document.querySelector(".vjs-play-progress");
+        let absProX = getCoordinateX(playProgress) + playProgress.clientWidth;
+
+        let progressControl = document.querySelector(".vjs-progress-control > div");
+        let absTarX = getCoordinateX(progressControl) + progress * progressControl.clientWidth;
+        // set the minimum precision to be 1 pixel to ensure a jump
+        if (flag) {
+            absTarX = Math.max(absTarX, absProX + 1);
+        } else {
+            absTarX = Math.min(absTarX, absProX - 1);
+        }
+
+        progressControl.dispatchEvent(MouseEventCreator.down(absTarX));
+        progressControl.dispatchEvent(MouseEventCreator.up());
     },
 
     forward(time = 10) {
         // forward the specific amount of time
-        let scrollBar = document.querySelector(".vjs-progress-control > div");
-        let currProgress = parseFloat(scrollBar.getAttribute("aria-valuenow")) / 100;
+        let progressControl = document.querySelector(".vjs-progress-control > div");
+        let currProgress = parseFloat(progressControl.getAttribute("aria-valuenow")) / 100;
         if (!isNaN(currProgress)) {
             let tarProgress = Math.min(currProgress + time / EmbeddedVideoController.duration, 1);
-            EmbeddedVideoController.jumpTo(tarProgress);
+            EmbeddedVideoController.jumpTo(tarProgress, true);
         }
     },
 
     backward(time = 10) {
         // backward the specific amount of time
-        let scrollBar = document.querySelector(".vjs-progress-control > div");
-        let currProgress = parseFloat(scrollBar.getAttribute("aria-valuenow")) / 100;
+        let progressControl = document.querySelector(".vjs-progress-control > div");
+        let currProgress = parseFloat(progressControl.getAttribute("aria-valuenow")) / 100;
         if (!isNaN(currProgress)) {
             let tarProgress = Math.max(currProgress - time / EmbeddedVideoController.duration, 0);
-            EmbeddedVideoController.jumpTo(tarProgress);
+            EmbeddedVideoController.jumpTo(tarProgress, false);
         }
     },
     

@@ -49,7 +49,7 @@ let LiveSessionsPortEditor = {
     },
 
     getEditBoxHTML(index) {
-        let html = '<div><span>Course</span><input></div><div><span>Tag</span><input></div><div><span>Link</span><input></div><div><span>Passcode</span><input placeholder="(optional)"></div><div>';
+        let html = '<div><span>Course</span><input></div><div><span>Tag</span><input placeholder="(optional)"></div><div><span>Link</span><input></div><div><span>Passcode</span><input placeholder="(optional)"></div><div>';
         if (index !== -1)
             html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.deleteConfig(' + index + ')">Delete</button>';
         html += '<button class="editboxbtn" onclick="LiveSessionsPortEditor.confirmConfig(' + index + ')">' + (index !== -1 ? 'Confirm' : 'Add') + '</button>';
@@ -151,13 +151,19 @@ let LiveSessionsPortEditor = {
             "link": inputs[2].value.trim(),
             "passcode": inputs[3].value.trim()
         };
+        // check empty input
+        if (!data.group || data.link.indexOf('://') === -1) {
+            window.alert('A course name and valid link are required.');
+            return;
+        }
         if (index !== -1) {
+            // confirm editing
             window.postMessage({ "command": "editLive", "data": [index, data] }, '*');
             // update ui (edit)
             let entry = document.querySelector("#livePort > ul > li:nth-child(" + (index + 1) + ")");
             let anchorEle = entry.querySelector("a");
             anchorEle.setAttribute("href", data.link);
-            anchorEle.innerText = data.group + ' - ' + data.title;
+            anchorEle.innerText = data.group + (data.title ? ' - ' : '') + data.title;
             let editBtn = entry.querySelector(".editbtn");
             // update copy button
             let cpBtn = entry.querySelector(".cpbtn");
@@ -188,10 +194,11 @@ let LiveSessionsPortEditor = {
             }
         }
         else {
+            // confirm adding
             window.postMessage({ "command": "addLive", "data": data }, '*');
             // update ui (add)
             let newEntryEle = document.createElement("li");
-            newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.group + ' - ' + data.title + '</a>';
+            newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.group + (data.title ? ' - ' : '') + data.title + '</a>';
             // update copy button
             if (data.passcode) {
                 newEntryEle.innerHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + addBoxIndex + ')">' + data.passcode + '</span>';

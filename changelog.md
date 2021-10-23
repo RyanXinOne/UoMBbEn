@@ -1,3 +1,10 @@
+# v0.1.5 `23/10/2021`
+## Bug Fixes
++ Check input constraints for *Live Session Port*
++ Optimise name display when course tag is empty
++ The video progress would forward/backward correctly when playing a video longer than an hour
++ Ensure a progress jump when the video displays in a small-size frame
+
 # v0.1.4 `18/07/2021`
 ## Add Features
 + Auto log in to UoM Login System.

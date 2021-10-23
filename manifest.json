@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "UoM Blackboard Enhancement",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Improve your experience of Blackboard of the University of Manchester.",
     "author": "RyanXin",
     "homepage_url": "https://www.ryanxin.cn/",

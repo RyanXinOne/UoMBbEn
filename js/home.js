@@ -159,7 +159,7 @@ function renderLivePort() {
         let iHTML = "";
         for (let i = 0; i < entries.length; i++) {
             iHTML += '<li>';
-            iHTML += '<a href="' + entries[i].link + '" target="_blank">' + entries[i].group + ' - ' + entries[i].title + '</a>';
+            iHTML += '<a href="' + entries[i].link + '" target="_blank">' + entries[i].group + (entries[i].title ? ' - ' : '') + entries[i].title + '</a>';
             // render copy button
             if (entries[i].passcode) {
                 iHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + i + ')">' + entries[i].passcode + '</span>';
