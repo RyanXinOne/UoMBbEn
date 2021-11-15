@@ -156,10 +156,10 @@ let EmbeddedVideoController = {
         // display or hide the caption
         let captionBtn = document.querySelector(".vjs-captions-button");
         // decide current caption state
-        if (captionBtn.querySelector("ul.vjs-menu-content > li:nth-child(2)").classList.contains("vjs-selected")) {
-            captionBtn.querySelector("ul.vjs-menu-content > li:nth-child(3)").dispatchEvent(MouseEventCreator.click());
+        if (captionBtn.querySelector("ul.vjs-menu-content > li:nth-last-child(2)").classList.contains("vjs-selected")) {
+            captionBtn.querySelector("ul.vjs-menu-content > li:last-child").dispatchEvent(MouseEventCreator.click());
         } else {
-            captionBtn.querySelector("ul.vjs-menu-content > li:nth-child(2)").dispatchEvent(MouseEventCreator.click());
+            captionBtn.querySelector("ul.vjs-menu-content > li:nth-last-child(2)").dispatchEvent(MouseEventCreator.click());
         }
     }
 };
