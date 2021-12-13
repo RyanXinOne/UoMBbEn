@@ -155,11 +155,17 @@ let EmbeddedVideoController = {
     toggleCaption() {
         // display or hide the caption
         let captionBtn = document.querySelector(".vjs-captions-button");
+        if (!captionBtn) {
+            return;
+        }
+        let captionItems = captionBtn.querySelectorAll("li.vjs-menu-item");
         // decide current caption state
-        if (captionBtn.querySelector("ul.vjs-menu-content > li:nth-last-child(2)").classList.contains("vjs-selected")) {
-            captionBtn.querySelector("ul.vjs-menu-content > li:last-child").dispatchEvent(MouseEventCreator.click());
+        if (captionItems[captionItems.length - 2].classList.contains("vjs-selected")) {
+            // enable caption English
+            captionItems[captionItems.length - 1].dispatchEvent(MouseEventCreator.click());
         } else {
-            captionBtn.querySelector("ul.vjs-menu-content > li:nth-last-child(2)").dispatchEvent(MouseEventCreator.click());
+            // enable caption Off
+            captionItems[captionItems.length - 2].dispatchEvent(MouseEventCreator.click());
         }
     }
 };
