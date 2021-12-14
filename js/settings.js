@@ -19,7 +19,7 @@ let PageManager = {
             chrome.storage.sync.get(['autoLogin'], (items) => {
                 // render the state of auto login switch button
                 let account_info = JSON.parse(items.autoLogin);
-                SwitchController.setState(document.getElementById('auto-login-btn'), account_info.enabled);
+                SwitchController.setState(document.getElementById('auto-login-switch'), account_info.enabled);
         
                 // enable animation
                 document.querySelector('body').clientTop;   // force browser to render DOM
@@ -35,8 +35,8 @@ let PageManager = {
             btns[1].onclick = PageManager.confImportPage.show;
             btns[2].onclick = PageManager.confResetPage.show;
             document.getElementById('account-info-btn').onclick = PageManager.accountInfoPage.show;
-            let switch_btn = document.getElementById('auto-login-btn');
-            switch_btn.onclick = PageManager.settingsPage.toggleAutoLogin;
+            document.getElementById('auto-login-switch').onclick = PageManager.settingsPage.toggleAutoLogin;
+            document.getElementById('player-settings-btn').onclick = PageManager.playerSettingsPage.show;
         },
         backFrom(pageId) {
             // switch page
@@ -45,7 +45,7 @@ let PageManager = {
             document.getElementById('settings-page').style.display = 'block';
         },
         toggleAutoLogin() {
-            let state = SwitchController.toggle(document.getElementById('auto-login-btn'));
+            let state = SwitchController.toggle(document.getElementById('auto-login-switch'));
             // update state
             chrome.storage.sync.get(['autoLogin'], (items) => {
                 let account_info = JSON.parse(items.autoLogin);
@@ -239,6 +239,20 @@ let PageManager = {
                     save_btn.disabled = true;
                 });
             });
+        }
+    },
+    playerSettingsPage: {
+        show() {
+            // switch page
+            document.getElementById('settings-page').style.display = 'none';
+            
+            document.getElementById('player-settings-page').style.display = 'block';
+        },
+        registerClickEvents() {
+            btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+            btns[0].onclick = () => {};
+            btns[1].onclick = () => {};
+            btns[2].onclick = () => { PageManager.settingsPage.backFrom('player-settings-page') };
         }
     }
 };

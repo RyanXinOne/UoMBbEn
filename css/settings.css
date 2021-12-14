@@ -14,7 +14,7 @@ header {
     border-bottom: 2px solid #d2d2d2;
     font-size: 18px;
     font-weight: bold;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
     color: #555;
     line-height: 37px;
     -webkit-user-select: none;
@@ -36,32 +36,8 @@ main {
     font-size: 15px;
 }
 
-#settings-page .setting-row {
-    margin-bottom: 20px;
-}
-
-#conf-export-page textarea,
-#conf-import-page textarea {
-    display: block;
-    width: 97.5%;
-    max-width: 97.5%;
-    min-width: 20%;
-    height: 19em;
-    min-height: 1em;
-    font-size: 13.5px;
-}
-
-#account-info-page .info-row {
-    position: relative;
-    height: 22px;
-    line-height: 22px;
-    margin: 8px 0;
-}
-
-#account-info-page .info-row input {
-    position: absolute;
-    left: 80px;
-    width: 160px;
+label {
+    margin-right: 6px;
 }
 
 button {
@@ -72,7 +48,6 @@ button {
     background-color: #e9e9e9;
     height: 22px;
     padding: 0 7px;
-    margin-left: 6px;
     font-size: 13px;
     transition: background-color .1s ease;
 }
@@ -88,11 +63,6 @@ button:active {
 button:disabled {
     cursor: initial;
     background-color: #e9e9e9;
-}
-
-div.btns-bar {
-    text-align: right;
-    margin-top: 5px;
 }
 
 .switch {
@@ -129,4 +99,54 @@ div.btns-bar {
 .switch.on > span {
     left: 25px;
     background-color: white;
+}
+
+input[type="text"], input[type="password"] {
+    width: 140px;
+}
+
+input[type="number"] {
+    width: 50px;
+}
+
+input[type="color"] {
+    height: 22px;
+    width: 37px;
+    padding: 0 2px;
+}
+
+div.btns-bar {
+    text-align: right;
+    margin-top: 8px;
+}
+
+#settings-page .row {
+    margin-bottom: 20px;
+}
+
+#conf-export-page textarea,
+#conf-import-page textarea {
+    display: block;
+    width: 97.5%;
+    max-width: 97.5%;
+    min-width: 20%;
+    height: 19em;
+    min-height: 1em;
+    font-size: 13.5px;
+}
+
+#account-info-page .row,
+#player-settings-page .row {
+    height: 22px;
+    line-height: 22px;
+    margin: 8px 0;
+}
+
+#account-info-page .row label {
+    display: inline-block;
+    width: 75px;
+}
+
+#player-settings-page .row input {
+    margin: 0 3px;
 }

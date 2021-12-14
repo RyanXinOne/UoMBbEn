@@ -17,20 +17,20 @@
     </header>
     <main>
         <div id="settings-page">
-            <div id="conf-bar" class="setting-row">
-                <span>Configuration</span>
+            <div id="conf-bar" class="row">
+                <label>Configuration</label>
                 <button>Export</button>
                 <button>Import</button>
                 <button>Reset</button>
             </div>
-            <div class="setting-row">
-                Auto Log-in
+            <div class="row">
+                <label>Auto Log-in</label>
                 <button id="account-info-btn">Account Info</button>
-                <div id="auto-login-btn" class="switch"><span class="animated"></span></div>
+                <div id="auto-login-switch" class="switch"><span class="animated"></span></div>
             </div>
-            <div class="setting-row">
-                Embed Player
-                <button id="player-setting-btn">Settings</button>
+            <div class="row">
+                <label>Embedded Player</label>
+                <button id="player-settings-btn">Settings</button>
             </div>
         </div>
 
@@ -60,8 +60,8 @@
 
         <div id="account-info-page" style="display: none;">
             <div>Log-in Information</div>
-            <div class="info-row">Username:<input placeholder="UoM Username"></div>
-            <div class="info-row">Password:<input type="password" placeholder="Stored in local"></div>
+            <div class="row"><label>Username:</label><input type="text" placeholder="UoM Username"></div>
+            <div class="row"><label>Password:</label><input type="password" placeholder="Stored in local"></div>
             <div class="btns-bar">
                 <button>Clear</button>
                 <button>Save</button>
@@ -69,8 +69,18 @@
             </div>
         </div>
 
-        <div id="player-control-page" style="display: none;">
-            
+        <div id="player-settings-page" style="display: none;">
+            <div>Caption Settings</div>
+            <div class="row"><label>Font Family:</label><input type="text" value="sans-serif"></div>
+            <div class="row"><label>Font Size:</label><input type="number" min="10" max="120" value="15">px</div>
+            <div class="row"><label>Font Color:</label><input type="color" value="#ffffff"></div>
+            <div class="row"><label>Background Color:</label><input type="color" value="#000000"></div>
+            <div class="row"><label>Opacity:</label><input type="number" min="0" max="100" value="100">%</div>
+            <div class="btns-bar">
+                <button>Default</button>
+                <button>Save</button>
+                <button>Back</button>
+            </div>
         </div>
     </main>
 </body>
