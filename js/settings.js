@@ -9,22 +9,28 @@ window.onload = () => {
 
 let PageManager = {
     settingsPage: {
-        show() {
+        show(pageId = null) {
             // disable animation
             let switch_btns = document.querySelectorAll('.switch > span');
             for (let i = 0; i < switch_btns.length; i++) {
                 switch_btns[i].classList.remove('animated');
             }
-        
+
             chrome.storage.sync.get(['autoLogin'], (items) => {
                 // render the state of auto login switch button
                 let account_info = JSON.parse(items.autoLogin);
                 SwitchController.setState(document.getElementById('auto-login-switch'), account_info.enabled);
-        
+
                 // enable animation
                 document.querySelector('body').clientTop;   // force browser to render DOM
                 for (let i = 0; i < switch_btns.length; i++) {
                     switch_btns[i].classList.add('animated');
+                }
+
+                if (pageId !== null) {
+                    // switch page
+                    document.getElementById(pageId).style.display = 'none';
+                    document.getElementById('settings-page').style.display = 'block';
                 }
             });
         },
@@ -39,10 +45,7 @@ let PageManager = {
             document.getElementById('player-settings-btn').onclick = PageManager.playerSettingsPage.show;
         },
         backFrom(pageId) {
-            // switch page
-            document.getElementById(pageId).style.display = 'none';
-            PageManager.settingsPage.show();
-            document.getElementById('settings-page').style.display = 'block';
+            PageManager.settingsPage.show(pageId);
         },
         toggleAutoLogin() {
             let state = SwitchController.toggle(document.getElementById('auto-login-switch'));
@@ -56,21 +59,19 @@ let PageManager = {
     },
     confExportPage: {
         show() {
-            let copy_btn = document.querySelector('#conf-export-page button');
-            let conf_output = document.querySelector('#conf-export-page textarea');
-            // switch page
-            document.getElementById('settings-page').style.display = 'none';
-            conf_output.value = '';
-            copy_btn.innerText = 'Copy';
-            copy_btn.disabled = true;
-            document.getElementById('conf-export-page').style.display = 'block';
             // get configuration
-            chrome.storage.sync.get(['disabledCourses', 'liveSessions', 'collapsedPortlets', 'autoLogin'], (items) => {
+            chrome.storage.sync.get(['disabledCourses', 'liveSessions', 'collapsedPortlets', 'autoLogin', 'playerSettings'], (items) => {
                 for (let key in items) {
                     items[key] = JSON.parse(items[key]);
                 }
+                let copy_btn = document.querySelector('#conf-export-page button');
+                let conf_output = document.querySelector('#conf-export-page textarea');
                 conf_output.value = JSON.stringify(items, null, 2);
+                copy_btn.innerText = 'Copy';
                 copy_btn.disabled = false;
+                // switch page
+                document.getElementById('settings-page').style.display = 'none';
+                document.getElementById('conf-export-page').style.display = 'block';
             });
         },
         registerClickEvents() {
@@ -95,12 +96,11 @@ let PageManager = {
         show() {
             let import_btn = document.querySelector('#conf-import-page button');
             let conf_input = document.querySelector('#conf-import-page textarea');
+            conf_input.value = '';
+            import_btn.innerText = 'Import';
+            conf_input.disabled = import_btn.disabled = false;
             // switch page
             document.getElementById('settings-page').style.display = 'none';
-            conf_input.value = '';
-            conf_input.disabled = false;
-            import_btn.innerText = 'Import';
-            import_btn.disabled = false;
             document.getElementById('conf-import-page').style.display = 'block';
             conf_input.focus();
         },
@@ -142,23 +142,35 @@ let PageManager = {
                     items.autoLogin.password = '';
                 user_conf.autoLogin = JSON.stringify(items.autoLogin);
             }
-        
+            if (Object.prototype.toString.call(items.playerSettings) === Object.prototype.toString.call({})) {
+                if (typeof items.playerSettings.fontFamily !== 'string')
+                    items.playerSettings.fontFamily = 'sans-serif';
+                if (typeof items.playerSettings.fontSize !== 'string')
+                    items.playerSettings.fontSize = '15';
+                if (typeof items.playerSettings.fontColor !== 'string')
+                    items.playerSettings.fontColor = '#ffffff';
+                if (typeof items.playerSettings.bgColor !== 'string')
+                    items.playerSettings.bgColor = '#000000';
+                if (typeof items.playerSettings.opacity !== 'string')
+                    items.playerSettings.opacity = '100';
+                user_conf.playerSettings = JSON.stringify(items.playerSettings);
+            }
+
             chrome.storage.sync.set(user_conf, () => {
                 import_btn.innerText = 'Imported';
-                import_btn.disabled = true;
-                conf_input.disabled = true;
+                import_btn.disabled = conf_input.disabled = true;
             });
         }
     },
     confResetPage: {
         show() {
-            // switch page
-            document.getElementById('settings-page').style.display = 'none';
             let reset_btn = document.querySelector('#conf-reset-page button');
             let cancel_btn = document.querySelector('#conf-reset-page button:last-child');
             reset_btn.innerText = 'Yes';
-            reset_btn.disabled = false;
             cancel_btn.innerText = 'Cancel';
+            reset_btn.disabled = false;
+            // switch page
+            document.getElementById('settings-page').style.display = 'none';
             document.getElementById('conf-reset-page').style.display = 'block';
         },
         registerClickEvents() {
@@ -173,40 +185,32 @@ let PageManager = {
                 disabledCourses: JSON.stringify([]),
                 liveSessions: JSON.stringify([]),
                 collapsedPortlets: JSON.stringify([]),
-                autoLogin: JSON.stringify({ enabled: false, username: '', password: '' })
+                autoLogin: JSON.stringify({ enabled: false, username: '', password: '' }),
+                playerSettings: JSON.stringify({ fontFamily: 'sans-serif', fontSize: '15', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' })
             };
             chrome.storage.sync.set(ini_conf, () => {
                 reset_btn.innerText = 'Reset';
-                reset_btn.disabled = true;
                 cancel_btn.innerText = 'Back';
+                reset_btn.disabled = true;
             });
         }
     },
     accountInfoPage: {
         show() {
-            // switch page
-            document.getElementById('settings-page').style.display = 'none';
-            let un_input = document.querySelector('#account-info-page input');
-            let pwd_input = document.querySelector('#account-info-page input[type=password]');
-            let clear_btn = document.querySelector('#account-info-page button');
-            let save_btn = document.querySelector('#account-info-page button:nth-child(2)');
-            un_input.value = '';
-            pwd_input.value = '';
-            un_input.disabled = true;
-            pwd_input.disabled = true;
-            clear_btn.disabled = true;
-            save_btn.innerText = 'Save';
-            save_btn.disabled = true;
-            document.getElementById('account-info-page').style.display = 'block';
             // get account info
             chrome.storage.sync.get(['autoLogin'], (items) => {
                 let account_info = JSON.parse(items.autoLogin);
+                let un_input = document.querySelector('#account-info-page input[type="text"]');
+                let pwd_input = document.querySelector('#account-info-page input[type="password"]');
+                let clear_btn = document.querySelector('#account-info-page button');
+                let save_btn = document.querySelector('#account-info-page button:nth-child(2)');
                 un_input.value = account_info.username;
                 pwd_input.value = account_info.password;
-                un_input.disabled = false;
-                pwd_input.disabled = false;
-                clear_btn.disabled = false;
-                save_btn.disabled = false;
+                save_btn.innerText = 'Save';
+                un_input.disabled = pwd_input.disabled = clear_btn.disabled = save_btn.disabled = false;
+                // switch page
+                document.getElementById('settings-page').style.display = 'none';
+                document.getElementById('account-info-page').style.display = 'block';
             });
         },
         registerClickEvents() {
@@ -216,43 +220,96 @@ let PageManager = {
             btns[2].onclick = () => { PageManager.settingsPage.backFrom('account-info-page') };
         },
         clearLoginInfo() {  // clear login information
-            let un_input = document.querySelector('#account-info-page input');
-            let pwd_input = document.querySelector('#account-info-page input[type=password]');
+            let un_input = document.querySelector('#account-info-page input[type="text"]');
+            let pwd_input = document.querySelector('#account-info-page input[type="password"]');
             un_input.value = '';
             pwd_input.value = '';
         },
         saveLoginInfo() {  // save login information
-            let un_input = document.querySelector('#account-info-page input');
-            let pwd_input = document.querySelector('#account-info-page input[type=password]');
+            let un_input = document.querySelector('#account-info-page input[type="text"]');
+            let pwd_input = document.querySelector('#account-info-page input[type="password"]');
             let clear_btn = document.querySelector('#account-info-page button');
             let save_btn = document.querySelector('#account-info-page button:nth-child(2)');
+            if (un_input.value === '' || pwd_input.value === '') return;
             // update storage
             chrome.storage.sync.get(['autoLogin'], (items) => {
                 let account_info = JSON.parse(items.autoLogin);
                 account_info.username = un_input.value;
                 account_info.password = pwd_input.value;
                 chrome.storage.sync.set({ autoLogin: JSON.stringify(account_info) }, () => {
-                    un_input.disabled = true;
-                    pwd_input.disabled = true;
-                    clear_btn.disabled = true;
                     save_btn.innerText = 'Saved';
-                    save_btn.disabled = true;
+                    un_input.disabled = pwd_input.disabled = clear_btn.disabled = save_btn.disabled = true;
                 });
             });
         }
     },
     playerSettingsPage: {
         show() {
-            // switch page
-            document.getElementById('settings-page').style.display = 'none';
-            
-            document.getElementById('player-settings-page').style.display = 'block';
+            // get account info
+            chrome.storage.sync.get(['playerSettings'], (items) => {
+                let player_settings = JSON.parse(items.playerSettings);
+                let inputs = document.querySelectorAll('#player-settings-page input');
+                let btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+                let font_family_in = inputs[0];
+                let font_size_in = inputs[1];
+                let font_color_in = inputs[2];
+                let bg_color_in = inputs[3];
+                let opacity_in = inputs[4];
+                font_family_in.value = player_settings.fontFamily;
+                font_size_in.value = player_settings.fontSize;
+                font_color_in.value = player_settings.fontColor;
+                bg_color_in.value = player_settings.bgColor;
+                opacity_in.value = player_settings.opacity;
+                btns[1].innerText = 'Save';
+                for (let i in inputs) {
+                    inputs[i].disabled = false;
+                }
+                btns[0].disabled = btns[1].disabled = false;
+                // switch page
+                document.getElementById('settings-page').style.display = 'none';
+                document.getElementById('player-settings-page').style.display = 'block';
+            });
         },
         registerClickEvents() {
-            btns = document.querySelectorAll('#player-settings-page .btns-bar button');
-            btns[0].onclick = () => {};
-            btns[1].onclick = () => {};
+            let btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+            btns[0].onclick = PageManager.playerSettingsPage.setToDefault;
+            btns[1].onclick = PageManager.playerSettingsPage.saveSettings;
             btns[2].onclick = () => { PageManager.settingsPage.backFrom('player-settings-page') };
+        },
+        setToDefault() {
+            let defaults = { fontFamily: 'sans-serif', fontSize: '15', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' };
+            let inputs = document.querySelectorAll('#player-settings-page input');
+            let font_family_in = inputs[0];
+            let font_size_in = inputs[1];
+            let font_color_in = inputs[2];
+            let bg_color_in = inputs[3];
+            let opacity_in = inputs[4];
+            font_family_in.value = defaults.fontFamily;
+            font_size_in.value = defaults.fontSize;
+            font_color_in.value = defaults.fontColor;
+            bg_color_in.value = defaults.bgColor;
+            opacity_in.value = defaults.opacity;
+        },
+        saveSettings() {
+            let inputs = document.querySelectorAll('#player-settings-page input');
+            let btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+            let font_family_in = inputs[0];
+            let font_size_in = inputs[1];
+            let font_color_in = inputs[2];
+            let bg_color_in = inputs[3];
+            let opacity_in = inputs[4];
+            for (let i in inputs) {
+                if (inputs[i].value === '') return;
+            }
+            // update storage
+            let player_settings = { fontFamily: font_family_in.value, fontSize: font_size_in.value, fontColor: font_color_in.value, bgColor: bg_color_in.value, opacity: opacity_in.value };
+            chrome.storage.sync.set({ playerSettings: JSON.stringify(player_settings) }, () => {
+                btns[1].innerText = 'Saved';
+                for (let i in inputs) {
+                    inputs[i].disabled = true;
+                }
+                btns[0].disabled = btns[1].disabled = true;
+            });
         }
     }
 };
