@@ -146,7 +146,7 @@ let PageManager = {
                 if (typeof items.playerSettings.fontFamily !== 'string')
                     items.playerSettings.fontFamily = 'sans-serif';
                 if (typeof items.playerSettings.fontSize !== 'string')
-                    items.playerSettings.fontSize = '15';
+                    items.playerSettings.fontSize = '75';
                 if (typeof items.playerSettings.fontColor !== 'string')
                     items.playerSettings.fontColor = '#ffffff';
                 if (typeof items.playerSettings.bgColor !== 'string')
@@ -186,7 +186,7 @@ let PageManager = {
                 liveSessions: JSON.stringify([]),
                 collapsedPortlets: JSON.stringify([]),
                 autoLogin: JSON.stringify({ enabled: false, username: '', password: '' }),
-                playerSettings: JSON.stringify({ fontFamily: 'sans-serif', fontSize: '15', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' })
+                playerSettings: JSON.stringify({ fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' })
             };
             chrome.storage.sync.set(ini_conf, () => {
                 reset_btn.innerText = 'Reset';
@@ -245,7 +245,7 @@ let PageManager = {
     },
     playerSettingsPage: {
         show() {
-            // get account info
+            // get player settings
             chrome.storage.sync.get(['playerSettings'], (items) => {
                 let player_settings = JSON.parse(items.playerSettings);
                 let inputs = document.querySelectorAll('#player-settings-page input');
@@ -279,7 +279,7 @@ let PageManager = {
             btns[2].onclick = () => { PageManager.settingsPage.backFrom('player-settings-page') };
         },
         setToDefault() {
-            let defaults = { fontFamily: 'sans-serif', fontSize: '15', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' };
+            let defaults = { fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' };
             let inputs = document.querySelectorAll('#player-settings-page input');
             let font_family_in = inputs[0];
             let font_size_in = inputs[1];

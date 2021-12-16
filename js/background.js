@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(() => {
         if (!items.liveSessions) ini_conf.liveSessions = JSON.stringify([]);
         if (!items.collapsedPortlets) ini_conf.collapsedPortlets = JSON.stringify([]);
         if (!items.autoLogin) ini_conf.autoLogin = JSON.stringify({ enabled: false, username: '', password: '' });
-        if (!items.playerSettings) ini_conf.playerSettings = JSON.stringify({ fontFamily: 'sans-serif', fontSize: '15', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' });
+        if (!items.playerSettings) ini_conf.playerSettings = JSON.stringify({ fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' });
         chrome.storage.sync.set(ini_conf);
     });
 
