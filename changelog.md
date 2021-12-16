@@ -1,7 +1,7 @@
 # v0.1.6 `16/12/2021`
 ## Add Features
 + Save and override caption styles of embedded player.
-# Bug Fixes
+## Bug Fixes
 + Fix error when there is no caption available.
 
 # v0.1.5 `23/10/2021`
