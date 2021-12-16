@@ -5,19 +5,19 @@ let CoursesPortEditor = {
     editCourses() {
     // enter edit mode of courses
         this.isCourseEditing = !this.isCourseEditing;
-        let courses = document.querySelectorAll("#CurrentCourses > ul > li");
+        let courses = document.querySelectorAll('#CurrentCourses > ul > li');
         if (this.isCourseEditing) {
             for (let i = 0; i < courses.length; i++) {
-                let isHidden = courses[i].className.indexOf("hiddenCourse") !== -1;
+                let isHidden = courses[i].className.indexOf('hiddenCourse') !== -1;
                 courses[i].innerHTML += '<button class="hidebtn" title="Toggle Display" onclick="CoursesPortEditor.toggleCourseDisplay(' + i + ')">' + (isHidden ? '☐' : '☒') + '</button>';
-                courses[i].style.display = "list-item";
+                courses[i].style.display = 'list-item';
             }
         }
         else {
             for (let i = 0; i < courses.length; i++) {
-                courses[i].querySelector(".hidebtn").remove();
-                if (courses[i].className.indexOf("hiddenCourse") !== -1) {
-                    courses[i].style.display = "none";
+                courses[i].querySelector('.hidebtn').remove();
+                if (courses[i].className.indexOf('hiddenCourse') !== -1) {
+                    courses[i].style.display = 'none';
                 }
             }
         }
@@ -25,18 +25,18 @@ let CoursesPortEditor = {
     
     toggleCourseDisplay(courseIndex) {
         // hide or show a course entry
-        let courseEle = document.querySelector("#CurrentCourses > ul > li:nth-child(" + (courseIndex + 1) + ")");
-        if (courseEle.className.indexOf("hiddenCourse") !== -1) {
+        let courseEle = document.querySelector('#CurrentCourses > ul > li:nth-child(' + (courseIndex + 1) + ')');
+        if (courseEle.className.indexOf('hiddenCourse') !== -1) {
             // show
-            courseEle.classList.remove("hiddenCourse");
-            courseEle.querySelector("button").innerText = "☒";
-            window.postMessage({"command": "showCourse", "data": courseEle.querySelector("a").innerText}, '*');
+            courseEle.classList.remove('hiddenCourse');
+            courseEle.querySelector('button').innerText = '☒';
+            window.postMessage({'command': 'showCourse', 'data': courseEle.querySelector('a').innerText}, '*');
         }
         else {
             // hide
-            courseEle.classList.add("hiddenCourse");
-            courseEle.querySelector("button").innerText = "☐";
-            window.postMessage({"command": "hideCourse", "data": courseEle.querySelector("a").innerText}, '*');
+            courseEle.classList.add('hiddenCourse');
+            courseEle.querySelector('button').innerText = '☐';
+            window.postMessage({'command': 'hideCourse', 'data': courseEle.querySelector('a').innerText}, '*');
         }
     }
 };
@@ -69,8 +69,8 @@ let LiveSessionsPortEditor = {
     editLivePort() {
         // enter edit mode of Live Sessions
         this.isLiveEditing = !this.isLiveEditing;
-        let liveList = document.querySelector("#livePort > ul");
-        let entries = liveList.querySelectorAll("li");
+        let liveList = document.querySelector('#livePort > ul');
+        let entries = liveList.querySelectorAll('li');
         if (this.isLiveEditing) {
             for (let i = 0; i < entries.length; i++) {
                 // render edit button
@@ -83,8 +83,8 @@ let LiveSessionsPortEditor = {
         }
         else {
             for (let i = 0; i < entries.length - 1; i++) {
-                entries[i].querySelector(".editbtn").remove();
-                entries[i].querySelector(".liveEditBox").remove();
+                entries[i].querySelector('.editbtn').remove();
+                entries[i].querySelector('.liveEditBox').remove();
             }
             entries[entries.length - 1].remove();
         }
@@ -92,46 +92,46 @@ let LiveSessionsPortEditor = {
 
     hideEditBox(index) {
         // hide the edit box
-        let editBox = document.querySelectorAll("#livePort .liveEditBox");
+        let editBox = document.querySelectorAll('#livePort .liveEditBox');
         editBox = editBox[index !== -1 ? index : editBox.length - 1];
-        if (index !== -1) editBox.style.display = "none";
+        if (index !== -1) editBox.style.display = 'none';
         else editBox.innerHTML = this.getAddButtonHTML();
     },
 
     toggleEditBox(index) {
         // toggle display of editBoxes (triggered by edit button)
-        let editBox = document.querySelector("#livePort > ul > li:nth-child(" + (index + 1) + ") > .liveEditBox");
-        if (editBox.style.display === "none") {
+        let editBox = document.querySelector('#livePort > ul > li:nth-child(' + (index + 1) + ') > .liveEditBox');
+        if (editBox.style.display === 'none') {
             // render contents of edit box from storage
-            window.postMessage({ "command": "renderLiveEditBox", "data": index });
+            window.postMessage({ 'command': 'renderLiveEditBox', 'data': index });
         }
         else this.hideEditBox(index);
     },
 
     showAddBox() {
         // show Adding edit box
-        let addBox = document.querySelectorAll("#livePort .liveEditBox");
+        let addBox = document.querySelectorAll('#livePort .liveEditBox');
         addBox = addBox[addBox.length - 1];
         addBox.innerHTML = this.getEditBoxHTML(-1);
     },
 
     deleteConfig(index) {
         // delete an entry
-        window.postMessage({ "command": "deleteLive", "data": index });
+        window.postMessage({ 'command': 'deleteLive', 'data': index });
         // update ui
-        let entries = document.querySelectorAll("#livePort > ul > li");
+        let entries = document.querySelectorAll('#livePort > ul > li');
         // update index number of onclick
         let updateClickFunc = (ele, index) => {
-            let clickFunc = ele.getAttribute("onclick");
+            let clickFunc = ele.getAttribute('onclick');
             clickFunc = clickFunc.replace(/\(\d+?\)/, '(' + index + ')');
-            ele.setAttribute("onclick", clickFunc);
+            ele.setAttribute('onclick', clickFunc);
         };
         for (let i = index + 1; i < entries.length - 1; i++) {
             // update copy button
-            let cpBtn = entries[i].querySelector(".cpbtn");
+            let cpBtn = entries[i].querySelector('.cpbtn');
             if (cpBtn) updateClickFunc(cpBtn, i - 1);
             // update edit box buttons
-            let btnEles = entries[i].querySelectorAll("button");
+            let btnEles = entries[i].querySelectorAll('button');
             for (let j = 0; j < btnEles.length; j++) {
                 updateClickFunc(btnEles[j], i - 1);
             }
@@ -141,15 +141,15 @@ let LiveSessionsPortEditor = {
 
     confirmConfig(index) {
         // add or confirm editing of entries in Live Sessions port
-        let editBox = document.querySelectorAll("#livePort .liveEditBox");
+        let editBox = document.querySelectorAll('#livePort .liveEditBox');
         let addBoxIndex = editBox.length - 1;
         editBox = editBox[index !== -1 ? index : addBoxIndex];
-        let inputs = editBox.querySelectorAll("input");
+        let inputs = editBox.querySelectorAll('input');
         let data = {
-            "group": inputs[0].value.trim(),
-            "title": inputs[1].value.trim(),
-            "link": inputs[2].value.trim(),
-            "passcode": inputs[3].value.trim()
+            'group': inputs[0].value.trim(),
+            'title': inputs[1].value.trim(),
+            'link': inputs[2].value.trim(),
+            'passcode': inputs[3].value.trim()
         };
         // check empty input
         if (!data.group || data.link.indexOf('://') === -1) {
@@ -158,36 +158,36 @@ let LiveSessionsPortEditor = {
         }
         if (index !== -1) {
             // confirm editing
-            window.postMessage({ "command": "editLive", "data": [index, data] }, '*');
+            window.postMessage({ 'command': 'editLive', 'data': [index, data] }, '*');
             // update ui (edit)
-            let entry = document.querySelector("#livePort > ul > li:nth-child(" + (index + 1) + ")");
-            let anchorEle = entry.querySelector("a");
-            anchorEle.setAttribute("href", data.link);
+            let entry = document.querySelector('#livePort > ul > li:nth-child(' + (index + 1) + ')');
+            let anchorEle = entry.querySelector('a');
+            anchorEle.setAttribute('href', data.link);
             anchorEle.innerText = data.group + (data.title ? ' - ' : '') + data.title;
-            let editBtn = entry.querySelector(".editbtn");
+            let editBtn = entry.querySelector('.editbtn');
             // update copy button
-            let cpBtn = entry.querySelector(".cpbtn");
+            let cpBtn = entry.querySelector('.cpbtn');
             if (cpBtn) cpBtn.remove();
             if (data.passcode) {
-                let cpBtn = document.createElement("span");
-                cpBtn.className = "cpbtn";
-                cpBtn.setAttribute("title", "Copy Passcode");
-                cpBtn.setAttribute("onclick", "LiveSessionsPortEditor.copyPasscode(" + index + ")");
+                let cpBtn = document.createElement('span');
+                cpBtn.className = 'cpbtn';
+                cpBtn.setAttribute('title', 'Copy Passcode');
+                cpBtn.setAttribute('onclick', 'LiveSessionsPortEditor.copyPasscode(' + index + ')');
                 cpBtn.innerText = data.passcode;
                 editBtn.parentNode.insertBefore(cpBtn, editBtn);
             }
             // update direct shortcut
-            let shortcut = entry.querySelector(".shortcut");
+            let shortcut = entry.querySelector('.shortcut');
             if (shortcut) shortcut.remove();
             if (data.link.indexOf('zoom.us') > -1) {
                 let roomNo = data.link.match(/\/j\/(\d+)/);
                 if (roomNo && roomNo.length === 2) {
                     roomNo = roomNo[1];
                     let dlink = 'zoommtg://zoom.us/join?confno=' + roomNo + '&pwd=' + data.passcode + '&zc=0';
-                    let shortcut = document.createElement("a");
-                    shortcut.className = "shortcut";
-                    shortcut.setAttribute("title", "Direct Shortcut");
-                    shortcut.setAttribute("href", dlink);
+                    let shortcut = document.createElement('a');
+                    shortcut.className = 'shortcut';
+                    shortcut.setAttribute('title', 'Direct Shortcut');
+                    shortcut.setAttribute('href', dlink);
                     shortcut.innerHTML = this.getDirectShortcutSVG();
                     editBtn.parentNode.insertBefore(shortcut, editBtn);
                 }
@@ -195,9 +195,9 @@ let LiveSessionsPortEditor = {
         }
         else {
             // confirm adding
-            window.postMessage({ "command": "addLive", "data": data }, '*');
+            window.postMessage({ 'command': 'addLive', 'data': data }, '*');
             // update ui (add)
-            let newEntryEle = document.createElement("li");
+            let newEntryEle = document.createElement('li');
             newEntryEle.innerHTML = '<a href="' + data.link + '" target="_blank">' + data.group + (data.title ? ' - ' : '') + data.title + '</a>';
             // update copy button
             if (data.passcode) {
@@ -222,51 +222,51 @@ let LiveSessionsPortEditor = {
 
     copyPasscode(index) {
         // copy passcode into clipboard
-        let entry = document.querySelector("#livePort > ul > li:nth-child(" + (index + 1) + ")");
-        let pcdBtn = entry.querySelector(".cpbtn");
+        let entry = document.querySelector('#livePort > ul > li:nth-child(' + (index + 1) + ')');
+        let pcdBtn = entry.querySelector('.cpbtn');
         // execute copy
-        var aux = document.createElement("input");
-        aux.setAttribute("value", pcdBtn.innerText);
+        var aux = document.createElement('input');
+        aux.setAttribute('value', pcdBtn.innerText);
         document.body.appendChild(aux);
         aux.select();
-        let isSuccessful = document.execCommand("copy");
+        let isSuccessful = document.execCommand('copy');
         document.body.removeChild(aux);
         // write copy feedback
-        let cpFeedback = document.createElement("span");
-        cpFeedback.className = "cpfeedback";
-        cpFeedback.innerText = isSuccessful ? "Copied" : "Copy Failed";
-        let editBtn = entry.querySelector(".editbtn");
+        let cpFeedback = document.createElement('span');
+        cpFeedback.className = 'cpfeedback';
+        cpFeedback.innerText = isSuccessful ? 'Copied' : 'Copy Failed';
+        let editBtn = entry.querySelector('.editbtn');
         if (editBtn) editBtn.parentNode.insertBefore(cpFeedback, editBtn);
         else entry.appendChild(cpFeedback);
         // register mouseleave event to delete copy feedback
         let rmFeedback = () => {
-            entry.querySelector(".cpfeedback").remove();
-            entry.removeEventListener("mouseleave", rmFeedback, false);
+            entry.querySelector('.cpfeedback').remove();
+            entry.removeEventListener('mouseleave', rmFeedback, false);
         };
-        entry.addEventListener("mouseleave", rmFeedback, false);
+        entry.addEventListener('mouseleave', rmFeedback, false);
     }
 };
 
 let PortletEditor = {
     toggleCollapse(index) {
         // collapse (or expand) the main body of a portlet
-        let portlet = document.querySelectorAll(".portlet")[index];
-        let title = portlet.querySelector(".moduleTitle").innerText;
-        let mainbody = portlet.querySelector(".collapsible");
-        let collapseBtn = portlet.querySelector(".collabtn");
-        if (mainbody.style.display === "none") {
-            mainbody.style.display = "block";
-            collapseBtn.setAttribute("title", "Collapse this Portlet");
-            collapseBtn.querySelector("svg").classList.remove("rotated");
+        let portlet = document.querySelectorAll('.portlet')[index];
+        let title = portlet.querySelector('.moduleTitle').innerText;
+        let mainbody = portlet.querySelector('.collapsible');
+        let collapseBtn = portlet.querySelector('.collabtn');
+        if (mainbody.style.display === 'none') {
+            mainbody.style.display = 'block';
+            collapseBtn.setAttribute('title', 'Collapse this Portlet');
+            collapseBtn.querySelector('svg').classList.remove('rotated');
             // store user setting
-            window.postMessage({ "command": "expandPortlet", "data": title });
+            window.postMessage({ 'command': 'expandPortlet', 'data': title });
         }
         else {
-            mainbody.style.display = "none";
-            collapseBtn.setAttribute("title", "Expand this Portlet");
-            collapseBtn.querySelector("svg").classList.add("rotated");
+            mainbody.style.display = 'none';
+            collapseBtn.setAttribute('title', 'Expand this Portlet');
+            collapseBtn.querySelector('svg').classList.add('rotated');
             // store user setting
-            window.postMessage({ "command": "collapsePortlet", "data": title });
+            window.postMessage({ 'command': 'collapsePortlet', 'data': title });
         }
     }
 };

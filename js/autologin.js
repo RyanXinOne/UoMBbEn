@@ -1,7 +1,7 @@
 // validate login page
-if (document.querySelector("header > h1") && document.querySelector("header > h1").innerText === "Login Service") {
+if (document.querySelector('header > h1') && document.querySelector('header > h1').innerText === 'Login Service') {
     // get account info
-    chrome.storage.sync.get(["autoLogin"], (items) => {
+    chrome.storage.sync.get(['autoLogin'], (items) => {
         let account_info = JSON.parse(items.autoLogin);
         // auto log-in (enabled and no errors on page)
         if (account_info.enabled && document.querySelector('#msg.errors') === null) {

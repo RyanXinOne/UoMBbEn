@@ -25,15 +25,15 @@ function readableTimeToSeconds(time) {
 let MouseEventCreator = {
     // create a mouse event
     click() {
-        return new MouseEvent("click", { bubbles: true, cancelable: true, view: window });
+        return new MouseEvent('click', { bubbles: true, cancelable: true, view: window });
     },
 
     down(x = 0) {
-        return new MouseEvent("mousedown", { bubbles: true, cancelable: true, view: window, clientX: x });
+        return new MouseEvent('mousedown', { bubbles: true, cancelable: true, view: window, clientX: x });
     },
 
     up() {
-        return new MouseEvent("mouseup", { bubbles: true, cancelable: true, view: window });
+        return new MouseEvent('mouseup', { bubbles: true, cancelable: true, view: window });
     }
 };
 
@@ -43,39 +43,39 @@ let EmbeddedVideoController = {
     init() {
         // initialize controller
         // get video duration
-        EmbeddedVideoController.duration = readableTimeToSeconds(document.querySelector(".vjs-remaining-time-display").innerText);
+        EmbeddedVideoController.duration = readableTimeToSeconds(document.querySelector('.vjs-remaining-time-display').innerText);
         if (EmbeddedVideoController.duration === 0) {
             setTimeout(EmbeddedVideoController.init, 50);
         } else {
             // bind keys to control the player
             document.onkeydown = (event) => {
                 switch (event.key) {
-                    case " ":
+                    case ' ':
                         // Space: pause or play the video
                         EmbeddedVideoController.togglePlay();
                         break;
-                    case "ArrowRight":
+                    case 'ArrowRight':
                         // →: forward
                         EmbeddedVideoController.forward();
                         break;
-                    case "ArrowLeft":
+                    case 'ArrowLeft':
                         // ←: backward
                         EmbeddedVideoController.backward();
                         break;
-                    case "ArrowUp":
+                    case 'ArrowUp':
                         // ↑: increase playback speed
                         EmbeddedVideoController.speedRate(true);
                         break;
-                    case "ArrowDown":
+                    case 'ArrowDown':
                         // ↓: decrease playback speed
                         EmbeddedVideoController.speedRate(false);
                         break;
-                    case "Enter":
+                    case 'Enter':
                         // Enter: fullscreen control
                         EmbeddedVideoController.toggleFullScreen();
                         break;
-                    case "c":
-                    case "C":
+                    case 'c':
+                    case 'C':
                         // c: cation control
                         EmbeddedVideoController.toggleCaption();
                         break;
@@ -89,20 +89,20 @@ let EmbeddedVideoController = {
 
     togglePlay() {
         // play or pause video
-        document.querySelector(".vjs-control-bar > button").dispatchEvent(MouseEventCreator.click());
+        document.querySelector('.vjs-control-bar > button').dispatchEvent(MouseEventCreator.click());
     },
 
     toggleFullScreen() {
         // enter or exit full screen mode
-        document.querySelector(".vjs-control-bar > button:last-child").dispatchEvent(MouseEventCreator.click());
+        document.querySelector('.vjs-control-bar > button:last-child').dispatchEvent(MouseEventCreator.click());
     },
 
     jumpTo(progress, flag) {
         // jump to the specific progress(0-1), flag indicates forward (true) or backward (false)
-        let playProgress = document.querySelector(".vjs-play-progress");
+        let playProgress = document.querySelector('.vjs-play-progress');
         let absProX = getCoordinateX(playProgress) + playProgress.clientWidth;
 
-        let progressControl = document.querySelector(".vjs-progress-control > div");
+        let progressControl = document.querySelector('.vjs-progress-control > div');
         let absTarX = getCoordinateX(progressControl) + progress * progressControl.clientWidth;
         // set the minimum precision to be 1 pixel to ensure a jump
         if (flag) {
@@ -117,8 +117,8 @@ let EmbeddedVideoController = {
 
     forward(time = 10) {
         // forward the specific amount of time
-        let progressControl = document.querySelector(".vjs-progress-control > div");
-        let currProgress = parseFloat(progressControl.getAttribute("aria-valuenow")) / 100;
+        let progressControl = document.querySelector('.vjs-progress-control > div');
+        let currProgress = parseFloat(progressControl.getAttribute('aria-valuenow')) / 100;
         if (!isNaN(currProgress)) {
             let tarProgress = Math.min(currProgress + time / EmbeddedVideoController.duration, 1);
             EmbeddedVideoController.jumpTo(tarProgress, true);
@@ -127,8 +127,8 @@ let EmbeddedVideoController = {
 
     backward(time = 10) {
         // backward the specific amount of time
-        let progressControl = document.querySelector(".vjs-progress-control > div");
-        let currProgress = parseFloat(progressControl.getAttribute("aria-valuenow")) / 100;
+        let progressControl = document.querySelector('.vjs-progress-control > div');
+        let currProgress = parseFloat(progressControl.getAttribute('aria-valuenow')) / 100;
         if (!isNaN(currProgress)) {
             let tarProgress = Math.max(currProgress - time / EmbeddedVideoController.duration, 0);
             EmbeddedVideoController.jumpTo(tarProgress, false);
@@ -137,30 +137,30 @@ let EmbeddedVideoController = {
     
     speedRate(action) {
         // control playback speed rate. action value: true(increase), false(decrease)
-        let speedOptions = ["2x", "1.5x", "1.25x", "1x", "0.75x"];
-        let playbackRateMenu = document.querySelector(".vjs-playback-rate");
-        let currSpeed = playbackRateMenu.querySelector(".vjs-playback-rate-value").innerText;
+        let speedOptions = ['2x', '1.5x', '1.25x', '1x', '0.75x'];
+        let playbackRateMenu = document.querySelector('.vjs-playback-rate');
+        let currSpeed = playbackRateMenu.querySelector('.vjs-playback-rate-value').innerText;
         let speedLevel = speedOptions.indexOf(currSpeed);
         if (action) {
             if (speedLevel > 0) {
-                playbackRateMenu.querySelectorAll("ul.vjs-menu-content > li")[speedLevel - 1].dispatchEvent(MouseEventCreator.click());
+                playbackRateMenu.querySelectorAll('ul.vjs-menu-content > li')[speedLevel - 1].dispatchEvent(MouseEventCreator.click());
             }
         } else {
             if (speedLevel < speedOptions.length - 1) {
-                playbackRateMenu.querySelectorAll("ul.vjs-menu-content > li")[speedLevel + 1].dispatchEvent(MouseEventCreator.click());
+                playbackRateMenu.querySelectorAll('ul.vjs-menu-content > li')[speedLevel + 1].dispatchEvent(MouseEventCreator.click());
             }
         }
     },
 
     toggleCaption() {
         // display or hide the caption
-        let captionBtn = document.querySelector(".vjs-captions-button");
+        let captionBtn = document.querySelector('.vjs-captions-button');
         if (!captionBtn) {
             return;
         }
-        let captionItems = captionBtn.querySelectorAll("li.vjs-menu-item");
+        let captionItems = captionBtn.querySelectorAll('li.vjs-menu-item');
         // decide current caption state
-        if (captionItems[captionItems.length - 2].classList.contains("vjs-selected")) {
+        if (captionItems[captionItems.length - 2].classList.contains('vjs-selected')) {
             // enable caption English
             captionItems[captionItems.length - 1].dispatchEvent(MouseEventCreator.click());
         } else {
@@ -172,16 +172,16 @@ let EmbeddedVideoController = {
 
 function replacePaellaWithEmbeddedVideo() {
     // substitute paella in Video Portal with Embedded Video
-    let paellaContainer = document.querySelector(".paella-container");
-    let embeddedHTML = document.querySelector("#iframeText").value;
+    let paellaContainer = document.querySelector('.paella-container');
+    let embeddedHTML = document.querySelector('#iframeText').value;
     paellaContainer.innerHTML = embeddedHTML;
-    paellaContainer.querySelector("iframe").removeAttribute("width");
-    paellaContainer.querySelector("iframe").removeAttribute("height");
-    paellaContainer.querySelector("iframe").className = "paella";
+    paellaContainer.querySelector('iframe').removeAttribute('width');
+    paellaContainer.querySelector('iframe').removeAttribute('height');
+    paellaContainer.querySelector('iframe').className = 'paella';
 }
 
-if (window.location.pathname.startsWith("/embedded/")) {
+if (window.location.pathname.startsWith('/embedded/')) {
     EmbeddedVideoController.init();
-} else if (document.querySelector(".paella-container")) {
+} else if (document.querySelector('.paella-container')) {
     replacePaellaWithEmbeddedVideo();
 }

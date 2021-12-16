@@ -1,6 +1,6 @@
 chrome.runtime.onInstalled.addListener(() => {
     // initialize chrome storage
-    chrome.storage.sync.get(["disabledCourses", "liveSessions", "collapsedPortlets", "autoLogin", "playerSettings"], (items) => {
+    chrome.storage.sync.get(['disabledCourses', 'liveSessions', 'collapsedPortlets', 'autoLogin', 'playerSettings'], (items) => {
         let ini_conf = {};
         if (!items.disabledCourses) ini_conf.disabledCourses = JSON.stringify([]);
         if (!items.liveSessions) ini_conf.liveSessions = JSON.stringify([]);
