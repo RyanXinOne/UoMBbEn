@@ -110,6 +110,7 @@ let EmbeddedVideoController = {
 
             // show message on original settings panel
             let oriPanel = document.querySelector('.vjs-tracksettings');
+            if (!oriPanel) return;
             let msg = document.createElement('div');
             msg.style.position = 'absolute';
             msg.style.bottom = '0.5em';
@@ -189,9 +190,7 @@ let EmbeddedVideoController = {
     toggleCaption() {
         // display or hide the caption
         let captionBtn = document.querySelector('.vjs-captions-button');
-        if (!captionBtn) {
-            return;
-        }
+        if (!captionBtn) return;
         let captionItems = captionBtn.querySelectorAll('li.vjs-menu-item');
         // decide current caption state
         if (captionItems[captionItems.length - 2].classList.contains('vjs-selected')) {

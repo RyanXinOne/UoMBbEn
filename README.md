@@ -15,6 +15,7 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 ## Embedded Player
 + Apply embedded player in Video Portal (replace original one).
 + Use keyboard to control embedded video player.
++ (new) Save and override caption styles of embedded player.
 
 | Key | Function |
 | :-: | :-: |
