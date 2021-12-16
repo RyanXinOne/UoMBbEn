@@ -250,6 +250,7 @@ let PageManager = {
                 let player_settings = JSON.parse(items.playerSettings);
                 let inputs = document.querySelectorAll('#player-settings-page input');
                 let btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+                let msg = document.querySelector('#player-settings-page div:last-child');
                 let font_family_in = inputs[0];
                 let font_size_in = inputs[1];
                 let font_color_in = inputs[2];
@@ -265,6 +266,7 @@ let PageManager = {
                     inputs[i].disabled = false;
                 }
                 btns[0].disabled = btns[1].disabled = false;
+                msg.style.display = 'none';
                 // switch page
                 document.getElementById('settings-page').style.display = 'none';
                 document.getElementById('player-settings-page').style.display = 'block';
@@ -293,6 +295,7 @@ let PageManager = {
         saveSettings() {
             let inputs = document.querySelectorAll('#player-settings-page input');
             let btns = document.querySelectorAll('#player-settings-page .btns-bar button');
+            let msg = document.querySelector('#player-settings-page div:last-child');
             let font_family_in = inputs[0];
             let font_size_in = inputs[1];
             let font_color_in = inputs[2];
@@ -309,6 +312,7 @@ let PageManager = {
                     inputs[i].disabled = true;
                 }
                 btns[0].disabled = btns[1].disabled = true;
+                msg.style.display = 'block';
             });
         }
     }
