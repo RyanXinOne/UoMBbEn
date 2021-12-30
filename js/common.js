@@ -49,3 +49,11 @@ function redirectEmbedPdf() {
 
 HyperLinkProcessor.init();
 redirectEmbedPdf();
+// auto skip sign-on error page
+if (document.querySelector('#error_message_title') && document.querySelector('#error_message_title').innerText === 'Sign On Error!') {
+    document.querySelector('#error_message_button > a').click();
+}
+// auto click if login button is available
+if (document.getElementById('topframe.login.label')) {
+    document.getElementById('topframe.login.label').click();
+}

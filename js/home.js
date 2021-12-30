@@ -221,7 +221,3 @@ if (document.querySelector('.moduleTitle') && document.querySelector('.moduleTit
     renderCoursesPort();
     renderCollapseOption();
 }
-// auto skip sign-on error page
-else if (document.querySelector('#error_message_title') && document.querySelector('#error_message_title').innerText === 'Sign On Error!') {
-    document.querySelector('#error_message_button > a').click();
-}

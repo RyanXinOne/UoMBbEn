@@ -1,3 +1,7 @@
+# v0.1.7 `30/12/2021`
+## Add Features
++ Auto login if token was expired.
+
 # v0.1.6 `16/12/2021`
 ## Add Features
 + Save and override caption styles of embedded player.

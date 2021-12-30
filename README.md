@@ -33,6 +33,7 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 + Open embed pdf in browser directly.
 + Jump to in-page hash anchor directly.
 + (new) Auto log in to UoM Login System. (Your account information is stored locally)
++ Auto login if token was expired.
 
 ## Settings Page (Popup)
 + Import/Export your user configuration for migration.
