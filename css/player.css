@@ -1,9 +1,26 @@
-body
-{
+body {
     margin: 0;
 }
 
-.paella
-{
+.paella {
     width: 100% !important;
+}
+
+#error-reload-btn {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 60%;
+    z-index: 1;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 1em 0;
+}
+
+#error-reload-btn > span {
+    cursor: pointer;
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    text-decoration: underline;
 }

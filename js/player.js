@@ -44,11 +44,18 @@ let EmbeddedVideoController = {
         // initialize controller
         // get video duration
         EmbeddedVideoController.duration = readableTimeToSeconds(document.querySelector('.vjs-remaining-time-display').innerText);
+
         if (EmbeddedVideoController.duration === 0) {
             setTimeout(EmbeddedVideoController.init, 50);
         } else {
             EmbeddedVideoController.bindKeys();
             EmbeddedVideoController.overrideCaptionStyle();
+            EmbeddedVideoController.renderReloadButtonOnError();
+            let jumpto = parseFloat(new URL(window.location.href).searchParams.get('jumpto'));
+            if (!isNaN(jumpto) && jumpto > 0) {
+                jumpto = Math.min(jumpto, 1);
+                EmbeddedVideoController.execInitialJump(jumpto);
+            }
         }
     },
 
@@ -122,6 +129,34 @@ let EmbeddedVideoController = {
         });
     },
 
+    renderReloadButtonOnError() {
+        // render button
+        let error_display = document.querySelector('.vjs-error-display');
+        let reload_btn = document.createElement('div');
+        reload_btn.id = 'error-reload-btn';
+        reload_btn.innerHTML = '<span>Reload Video</span>';
+        error_display.appendChild(reload_btn);
+        // register click handler
+        let reload_text = reload_btn.querySelector('span');
+        reload_text.onclick = () => {
+            let currProgress = EmbeddedVideoController.getProgress();
+            if (isNaN(currProgress))
+                currProgress = '';
+            let url = new URL(window.location.href);
+            url.searchParams.set('jumpto', currProgress);
+            location.replace(url);
+        };
+    },
+
+    execInitialJump(jumpto) {
+        // jump to a specific time as soon as progress controller is ready
+        if (document.querySelector('.vjs-progress-control > div').clientWidth === 0) {
+            setTimeout(() => EmbeddedVideoController.execInitialJump(jumpto), 100);
+        } else {
+            EmbeddedVideoController.jumpTo(jumpto, true);
+        }
+    },
+
     togglePlay() {
         // play or pause video
         document.querySelector('.vjs-control-bar > button').dispatchEvent(MouseEventCreator.click());
@@ -150,10 +185,17 @@ let EmbeddedVideoController = {
         progressControl.dispatchEvent(MouseEventCreator.up());
     },
 
-    forward(time = 10) {
-        // forward the specific amount of time
+    getProgress() {
+        // get current progress (0-1) of video
         let progressControl = document.querySelector('.vjs-progress-control > div');
         let currProgress = parseFloat(progressControl.getAttribute('aria-valuenow')) / 100;
+        return currProgress;
+    },
+
+    forward(time = 10) {
+        // forward the specific amount of time
+        let currProgress = EmbeddedVideoController.getProgress();
+        // check ready state of progress controller
         if (!isNaN(currProgress)) {
             let tarProgress = Math.min(currProgress + time / EmbeddedVideoController.duration, 1);
             EmbeddedVideoController.jumpTo(tarProgress, true);
@@ -162,8 +204,8 @@ let EmbeddedVideoController = {
 
     backward(time = 10) {
         // backward the specific amount of time
-        let progressControl = document.querySelector('.vjs-progress-control > div');
-        let currProgress = parseFloat(progressControl.getAttribute('aria-valuenow')) / 100;
+        let currProgress = EmbeddedVideoController.getProgress();
+        // check ready state of progress controller
         if (!isNaN(currProgress)) {
             let tarProgress = Math.max(currProgress - time / EmbeddedVideoController.duration, 0);
             EmbeddedVideoController.jumpTo(tarProgress, false);
@@ -190,15 +232,26 @@ let EmbeddedVideoController = {
     toggleCaption() {
         // display or hide the caption
         let captionBtn = document.querySelector('.vjs-captions-button');
-        if (!captionBtn) return;
+        if (captionBtn.classList.contains('vjs-hidden')) return;
+        // locate two caption buttons
         let captionItems = captionBtn.querySelectorAll('li.vjs-menu-item');
+        let captionOff, captionEnglish;
+        for (let i = 0; i < captionItems.length; i++) {
+            let text = captionItems[i].innerText.toLowerCase();
+            if (text.slice(0, 12) === 'captions off') {
+                captionOff = captionItems[i];
+            } else if (text.slice(0, 7) === 'english') {
+                captionEnglish = captionItems[i];
+            }
+        }
+        if (!captionOff || !captionEnglish) return;
         // decide current caption state
-        if (captionItems[captionItems.length - 2].classList.contains('vjs-selected')) {
+        if (captionOff.classList.contains('vjs-selected')) {
             // enable caption English
-            captionItems[captionItems.length - 1].dispatchEvent(MouseEventCreator.click());
+            captionEnglish.dispatchEvent(MouseEventCreator.click());
         } else {
             // enable caption Off
-            captionItems[captionItems.length - 2].dispatchEvent(MouseEventCreator.click());
+            captionOff.dispatchEvent(MouseEventCreator.click());
         }
     }
 };

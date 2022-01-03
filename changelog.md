@@ -1,3 +1,10 @@
+# v0.1.8 `03/01/2022`
+## Add Features
++ Embedded Player
++ + Allow user to reload and restore video progress on network error.
+## Bug Fixes
++ Fix bugs on caption toggler.
+
 # v0.1.7 `30/12/2021`
 ## Add Features
 + Auto login if token was expired.
