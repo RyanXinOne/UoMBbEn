@@ -23,7 +23,7 @@ function readableTimeToSeconds(time) {
 }
 
 function hex2Rgb(hex) {
-    return `${parseInt(hex.substr(1, 2), 16)}, ${parseInt(hex.substr(3, 2), 16)}, ${parseInt(hex.substr(5, 2), 16)}`;
+    return `${parseInt(hex.substr(1, 2), 16)},${parseInt(hex.substr(3, 2), 16)},${parseInt(hex.substr(5, 2), 16)}`;
 }
 
 let MouseEventCreator = {
@@ -110,10 +110,10 @@ let EmbeddedVideoController = {
             let newStyle = document.createElement('style');
             newStyle.setAttribute('type', 'text/css');
             let captionCSS = 'div.vjs-text-track-display>div>div>div{';
-            captionCSS += `font-family: ${player_settings.fontFamily}!important;`;
-            captionCSS += `font-size: ${(parseInt(player_settings.fontSize) / 100) * 2.5}vw !important;`;
-            captionCSS += `color: ${player_settings.fontColor}!important;`;
-            captionCSS += `background-color: rgba(${hex2Rgb(player_settings.bgColor)}, ${parseInt(player_settings.opacity) / 100})!important;`;
+            captionCSS += `font-family:${player_settings.fontFamily} !important;`;
+            captionCSS += `font-size:${(parseInt(player_settings.fontSize) / 100) * 2.5}vw !important;`;
+            captionCSS += `color:rgba(${hex2Rgb(player_settings.fontColor)},${parseInt(player_settings.textOpacity) / 100}) !important;`;
+            captionCSS += `background-color:rgba(${hex2Rgb(player_settings.bgColor)},${parseInt(player_settings.bgOpacity) / 100}) !important;`;
             captionCSS += '}';
             newStyle.innerHTML = captionCSS;
             document.head.appendChild(newStyle);
