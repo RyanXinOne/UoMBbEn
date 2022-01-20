@@ -151,8 +151,10 @@ let PageManager = {
                     items.playerSettings.fontColor = '#ffffff';
                 if (typeof items.playerSettings.bgColor !== 'string')
                     items.playerSettings.bgColor = '#000000';
-                if (typeof items.playerSettings.opacity !== 'string')
-                    items.playerSettings.opacity = '100';
+                if (typeof items.playerSettings.textOpacity !== 'string')
+                    items.playerSettings.textOpacity = '100';
+                if (typeof items.playerSettings.bgOpacity !== 'string')
+                    items.playerSettings.bgOpacity = '80';
                 user_conf.playerSettings = JSON.stringify(items.playerSettings);
             }
 
@@ -186,7 +188,7 @@ let PageManager = {
                 liveSessions: JSON.stringify([]),
                 collapsedPortlets: JSON.stringify([]),
                 autoLogin: JSON.stringify({ enabled: false, username: '', password: '' }),
-                playerSettings: JSON.stringify({ fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' })
+                playerSettings: JSON.stringify({ fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', textOpacity: '100', bgOpacity: '80' })
             };
             chrome.storage.sync.set(ini_conf, () => {
                 reset_btn.innerText = 'Reset';
@@ -253,14 +255,16 @@ let PageManager = {
                 let msg = document.querySelector('#player-settings-page div:last-child');
                 let font_family_in = inputs[0];
                 let font_size_in = inputs[1];
-                let font_color_in = inputs[2];
-                let bg_color_in = inputs[3];
-                let opacity_in = inputs[4];
+                let text_color_in = inputs[2];
+                let text_opacity_in = inputs[3];
+                let bg_color_in = inputs[4];
+                let bg_opacity_in = inputs[5];
                 font_family_in.value = player_settings.fontFamily;
                 font_size_in.value = player_settings.fontSize;
-                font_color_in.value = player_settings.fontColor;
+                text_color_in.value = player_settings.fontColor;
+                text_opacity_in.value = player_settings.textOpacity;
                 bg_color_in.value = player_settings.bgColor;
-                opacity_in.value = player_settings.opacity;
+                bg_opacity_in.value = player_settings.bgOpacity;
                 btns[1].innerText = 'Save';
                 for (let i in inputs) {
                     inputs[i].disabled = false;
@@ -279,18 +283,20 @@ let PageManager = {
             btns[2].onclick = () => { PageManager.settingsPage.backFrom('player-settings-page') };
         },
         setToDefault() {
-            let defaults = { fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', opacity: '100' };
+            let defaults = { fontFamily: 'sans-serif', fontSize: '75', fontColor: '#ffffff', bgColor: '#000000', textOpacity: '100', bgOpacity: '80' };
             let inputs = document.querySelectorAll('#player-settings-page input');
             let font_family_in = inputs[0];
             let font_size_in = inputs[1];
-            let font_color_in = inputs[2];
-            let bg_color_in = inputs[3];
-            let opacity_in = inputs[4];
+            let text_color_in = inputs[2];
+            let text_opacity_in = inputs[3];
+            let bg_color_in = inputs[4];
+            let bg_opacity_in = inputs[5];
             font_family_in.value = defaults.fontFamily;
             font_size_in.value = defaults.fontSize;
-            font_color_in.value = defaults.fontColor;
+            text_color_in.value = defaults.fontColor;
+            text_opacity_in.value = defaults.textOpacity;
             bg_color_in.value = defaults.bgColor;
-            opacity_in.value = defaults.opacity;
+            bg_opacity_in.value = defaults.bgOpacity;
         },
         saveSettings() {
             let inputs = document.querySelectorAll('#player-settings-page input');
@@ -298,14 +304,15 @@ let PageManager = {
             let msg = document.querySelector('#player-settings-page div:last-child');
             let font_family_in = inputs[0];
             let font_size_in = inputs[1];
-            let font_color_in = inputs[2];
-            let bg_color_in = inputs[3];
-            let opacity_in = inputs[4];
+            let text_color_in = inputs[2];
+            let text_opacity_in = inputs[3];
+            let bg_color_in = inputs[4];
+            let bg_opacity_in = inputs[5];
             for (let i in inputs) {
                 if (inputs[i].value === '') return;
             }
             // update storage
-            let player_settings = { fontFamily: font_family_in.value, fontSize: font_size_in.value, fontColor: font_color_in.value, bgColor: bg_color_in.value, opacity: opacity_in.value };
+            let player_settings = { fontFamily: font_family_in.value, fontSize: font_size_in.value, fontColor: text_color_in.value, bgColor: bg_color_in.value, textOpacity: text_opacity_in.value, bgOpacity: bg_opacity_in.value };
             chrome.storage.sync.set({ playerSettings: JSON.stringify(player_settings) }, () => {
                 btns[1].innerText = 'Saved';
                 for (let i in inputs) {

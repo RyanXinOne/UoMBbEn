@@ -1,3 +1,8 @@
+# v0.1.9 `20/01/2022`
+## Improvement
++ Embedded Player
++ + Opacity of caption text and background now can be set separately. (Thanks @Axton)
+
 # v0.1.8 `03/01/2022`
 ## Add Features
 + Embedded Player
