@@ -15,7 +15,7 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 ## Embedded Player
 + Apply embedded player in Video Portal (replace original one).
 + Use keyboard to control embedded video player.
-+ (new) Save and override caption styles of embedded player.
++ Save and override caption styles of embedded player.
 + Allow user to reload and restore video progress on network error.
 
 | Key | Function |
@@ -31,9 +31,10 @@ It is quite light-weight and written by native JavaScript to ensure high efficie
 ## Utility
 + Go to external link in new tab directly.
 + Open links of file content in new tab.
-+ Open embed pdf in browser directly.
++ Open embedded pdf file in browser directly.
++ Open embedded web page (like piazza) in browser directly.
 + Jump to in-page hash anchor directly.
-+ (new) Auto log in to UoM Login System. (Your account information is stored locally)
++ Auto log in to UoM Login System. (Your account information is stored locally)
 + Auto login if token was expired.
 
 ## Settings Page (Popup)

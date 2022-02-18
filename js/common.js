@@ -3,9 +3,20 @@ let HyperLinkProcessor = {
         // traverse all the anchors
         let anchors = document.querySelectorAll('a');
         for (let i = 0; i < anchors.length; i++) {
+            HyperLinkProcessor.removeLaunchLinkWrapper(anchors[i]);
             HyperLinkProcessor.removeContentWrapper(anchors[i]);
             HyperLinkProcessor.openFileContentInNewTab(anchors[i]);
             HyperLinkProcessor.hashJump(anchors[i]);
+        }
+    },
+
+    removeLaunchLinkWrapper(anchor) {
+        // open embedded web page (e.g. piazza) directly in new tab
+        let attr = anchor.getAttribute('href');
+        if (attr && attr.startsWith('/webapps/blackboard/content/contentWrapper.jsp') && attr.indexOf('launchLink.jsp') > -1) {
+            let urlParser = new URL(attr, window.location.origin);
+            anchor.setAttribute('href', urlParser.searchParams.get('href'));
+            anchor.setAttribute('target', '_blank');
         }
     },
 
@@ -47,8 +58,7 @@ function redirectEmbedPdf() {
     }
 }
 
-HyperLinkProcessor.init();
-redirectEmbedPdf();
+
 // auto skip sign-on error page
 if (document.querySelector('#error_message_title') && document.querySelector('#error_message_title').innerText === 'Sign On Error!') {
     document.querySelector('#error_message_button > a').click();
@@ -57,3 +67,5 @@ if (document.querySelector('#error_message_title') && document.querySelector('#e
 if (document.getElementById('topframe.login.label')) {
     document.getElementById('topframe.login.label').click();
 }
+HyperLinkProcessor.init();
+redirectEmbedPdf();

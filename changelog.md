@@ -1,3 +1,7 @@
+# v0.1.10 `18/02/2022`
+## Add Features
++ Open embedded web page (like piazza) in browser directly.
+
 # v0.1.9 `20/01/2022`
 ## Improvement
 + Embedded Player
