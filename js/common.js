@@ -67,5 +67,44 @@ if (document.querySelector('#error_message_title') && document.querySelector('#e
 if (document.getElementById('topframe.login.label')) {
     document.getElementById('topframe.login.label').click();
 }
+
+function renderRapidNavBar() {
+    var table = document.getElementsByClassName('appTabs transparent')[0];
+        var destination_table_tab = table.getElementsByTagName("tr")[0].childNodes[1];
+        var tab_to_be_inserted_1 = document.createElement("td");
+        tab_to_be_inserted_1.id = "MailBox"
+        var tab_to_be_inserted_2 = document.createElement("td");
+        tab_to_be_inserted_2.id = "Checkin"
+        var tab_to_be_inserted_3 = document.createElement("td");
+        tab_to_be_inserted_3.id = "SPOT"
+
+        tab_to_be_inserted_1.innerHTML = `
+			<td id="MailBox">
+			<a href="https://outlook.office.com/mail/inbox" target="_top" aria-current="false">
+			<span>MailBox</span>
+			</a>
+			</td>`;
+
+        tab_to_be_inserted_2.innerHTML = `
+			<td id="Checkin">
+			<a href="https://my.manchester.ac.uk/MyCheckIn" target="_top" aria-current="false">
+			<span>Check In</span>
+			</a>
+			</td>`;
+
+        tab_to_be_inserted_3.innerHTML = `
+			<td id="SPOT v2">
+			<a href="https://studentnet.cs.manchester.ac.uk/me/spotv2/spotv2.php" target="_top" aria-current="false">
+			<span>SPOT</span>
+			</a>
+			</td>`;
+
+        //insert these tabs
+        insertAfter(tab_to_be_inserted_1, destination_table_tab)
+        insertAfter(tab_to_be_inserted_2, destination_table_tab)
+        insertAfter(tab_to_be_inserted_3, destination_table_tab)
+}
+
 HyperLinkProcessor.init();
 redirectEmbedPdf();
+renderRapidNavBar();

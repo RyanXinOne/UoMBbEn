@@ -1,14 +1,14 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "UoM Blackboard Enhancement",
-    "version": "0.1.10",
+    "version": "0.2.10",
     "description": "Improve your experience of Blackboard of the University of Manchester.",
     "author": "RyanXin",
     "homepage_url": "https://www.ryanxin.cn/",
     "omnibox": { "keyword" : "bben" },
     "icons": { "128": "/assets/icon-128.png",
                "256": "/assets/icon-256.png" },
-    "page_action": {
+    "action": {
         "default_icon": "/assets/icon-128.png",
         "default_title": "UoM Blackboard Enhancement",
         "default_popup": "/html/settings.html"
@@ -33,15 +33,17 @@
             "run_at": "document_end"
         }
     ],
+    "web_accessible_resources": [{
+        "resources": ["/js/home-inject.js"],
+        "matches": ["<all_urls>"]
+    }],
     "permissions": ["storage", "declarativeContent"],
-    "web_accessible_resources": ["/js/home-inject.js"],
+    "host_permissions": ["<all_urls>"],
     "background": {
-        "scripts": ["/js/background.js"],
-        "persistent": false
+        "service_worker": "/js/background.js"
     },
     "options_page": "/html/settings.html",
     "options_ui": {
-        "page": "/html/settings.html",
-        "chrome_style": false
+        "page": "/html/settings.html"
     }
 }

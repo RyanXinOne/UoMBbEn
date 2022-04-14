@@ -5,6 +5,13 @@ This is a Chrome-Extension aiming to improve user experience of Blackboard of th
 
 It is quite light-weight and written by native JavaScript to ensure high efficiency and reliability.
 
+Optimised By R1NG:
+
+1. Extension API Transferred to Chrome Manifest V3
+2. Added Rapid Route Tab: Blackboard, SPOT v2, Check In, MailBox and MyManchester
+3. Optimised Welcome tab into Date/Time dynamic display with pretty style
+4. Removed redundant "My Learning Essentials" and "EvaluationKIT Course Evaluations" tab
+
 # Main Features
 ## Home Page
 + Hide unnecessary course entries.
