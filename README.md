@@ -1,10 +1,9 @@
 # UoM Blackboard Enhancement
-<div align="center"><img src="https://raw.githubusercontent.com/KirisameR/UoMBbEn/ManifestV3/assets/icon-256.png" alt="UoMBbEn icon"/></div>
+<div align="center"><img src="https://raw.githubusercontent.com/RyanXinOne/UoMBbEn/master/assets/icon-128.png" alt="UoMBbEn icon"/></div>
 
 This is a Chrome-Extension aiming to improve user experience of Blackboard of the University of Manchester, help customize your own blackboard and improve productivity.
 
 It is quite light-weight and written by native JavaScript to ensure high efficiency and reliability.
-
 
 Optimised By R1NG:
 
