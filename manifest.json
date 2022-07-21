@@ -1,47 +1,80 @@
 {
     "manifest_version": 3,
     "name": "UoM Blackboard Enhancement",
-    "version": "0.2.10",
-    "description": "Improve your experience of Blackboard of the University of Manchester.",
-    "author": "RyanXin",
-    "homepage_url": "https://www.ryanxin.cn/",
-    "omnibox": { "keyword" : "bben" },
-    "icons": { "128": "/assets/icon-128.png",
-               "256": "/assets/icon-256.png" },
+    "version": "0.2.0",
     "action": {
-        "default_icon": "/assets/icon-128.png",
+        "default_icon": {
+            "128": "/assets/icon-128.png"
+        },
         "default_title": "UoM Blackboard Enhancement",
         "default_popup": "/html/settings.html"
     },
+    "description": "Improve your experience of Blackboard of the University of Manchester.",
+    "icons": {
+        "128": "/assets/icon-128.png",
+        "256": "/assets/icon-256.png"
+    },
+    "author": "RyanXin",
+    "homepage_url": "https://www.ryanxin.cn/",
+    "omnibox": {
+        "keyword": "bben"
+    },
+    "background": {
+        "service_worker": "/js/background.js"
+    },
     "content_scripts": [
         {
-            "matches": ["https://online.manchester.ac.uk/*"],
-            "js": ["/js/home.js", "/js/common.js"],
-            "css": ["/css/home-portlet.css", "/css/home-courses.css", "/css/home-liveSessions.css"],
+            "matches": [
+                "https://online.manchester.ac.uk/*"
+            ],
+            "js": [
+                "/js/home.js",
+                "/js/common.js"
+            ],
+            "css": [
+                "/css/home-portlet.css",
+                "/css/home-courses.css",
+                "/css/home-liveSessions.css"
+            ],
             "run_at": "document_end"
         },
         {
-            "matches": ["https://video.manchester.ac.uk/*"],
-            "js": ["/js/player.js"],
-            "css": ["/css/player.css"],
+            "matches": [
+                "https://video.manchester.ac.uk/*"
+            ],
+            "js": [
+                "/js/player.js"
+            ],
+            "css": [
+                "/css/player.css"
+            ],
             "run_at": "document_end",
             "all_frames": true
         },
         {
-            "matches": ["https://login.manchester.ac.uk/*"],
-            "js": ["/js/autologin.js"],
+            "matches": [
+                "https://login.manchester.ac.uk/*"
+            ],
+            "js": [
+                "/js/autologin.js"
+            ],
             "run_at": "document_end"
         }
     ],
-    "web_accessible_resources": [{
-        "resources": ["/js/home-inject.js"],
-        "matches": ["<all_urls>"]
-    }],
-    "permissions": ["storage", "declarativeContent"],
-    "host_permissions": ["<all_urls>"],
-    "background": {
-        "service_worker": "/js/background.js"
-    },
+    "permissions": [
+        "storage",
+        "declarativeContent"
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "/js/home-inject.js"
+            ],
+            "matches": [
+                "https://online.manchester.ac.uk/*"
+            ]
+        }
+    ],
     "options_page": "/html/settings.html",
     "options_ui": {
         "page": "/html/settings.html"
