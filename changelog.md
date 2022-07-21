@@ -1,3 +1,7 @@
+# v0.2.0 `21/07/2022`
+## Improvement
++ Migrate extension into [Manifest V3](https://developer.chrome.com/docs/extensions/mv3/intro/) standard. (Thanks @R1NG)
+
 # v0.1.10 `18/02/2022`
 ## Add Features
 + Open embedded web page (like piazza) in browser directly.
