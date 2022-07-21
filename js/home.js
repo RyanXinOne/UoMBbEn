@@ -93,7 +93,7 @@ function initialize() {
     // inject cuntom js
     let inject_script = document.createElement('script');
     inject_script.setAttribute('type', 'text/javascript');
-	inject_script.src = chrome.runtime.getURL('js/home-inject.js');  // get the link like：chrome-extension://xxxxxx/js/home-inject.js
+	inject_script.src = chrome.extension.getURL('js/home-inject.js');  // get the link like：chrome-extension://xxxxxx/js/home-inject.js
     document.head.appendChild(inject_script);
     // register 'message' event listener for communication
     window.addEventListener('message', (e) => {
@@ -130,23 +130,20 @@ function calculateTime() {
     const weekDay = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' };
     const months = { 0: 'Jan', 1: 'Feb', 2: 'Mar', 3: 'Apr', 4: 'May', 5: 'Jun', 6: 'Jul', 7: 'Aug', 8: 'Sep', 9: 'Oct', 10: 'Nov', 11: 'Dec' };
     let targetDate = new Date(new Date().toLocaleString('en', { timeZone: 'Europe/London' }));
-    let readableTime = formatNumber(targetDate.getHours()) + ':' + formatNumber(targetDate.getMinutes()) + ':' + formatNumber(targetDate.getSeconds());
-    let readableDate = weekDay[targetDate.getDay()] + ', ' + targetDate.getDate() + ' ' + months[targetDate.getMonth()];
-    return [readableDate, readableTime];
+    let readableTime = formatNumber(targetDate.getHours()) + ':' + formatNumber(targetDate.getMinutes()) + ':' + formatNumber(targetDate.getSeconds()) + ' ' + weekDay[targetDate.getDay()] + ', ' + targetDate.getDate() + ' ' + months[targetDate.getMonth()];
+    return readableTime;
 }
 
 function renderTimePort() {
-    let ukDateTime = calculateTime();
-    
-    //Display UK local time at `Welcome' bar
-    let image_to_be_changed = document.getElementsByClassName("vtbegenerated")[0];
-    image_to_be_changed.id = "time";
-    image_to_be_changed.style.cssText = "color:black; text-align:center; color:#660099; font-size:60px; font-weight:1800;"
-    
-    document.getElementById('time').innerHTML = `<p style="font-size: 15px; color:black; font-weight:200">UK Local Date: ` + ukDateTime[0] + `</p>`+ ukDateTime[1];
-
+    // render UK time port
+    let timePort = document.createElement('div');
+    timePort.className = 'portlet clearfix';
+    timePort.innerHTML = '<div class="edit_controls"></div><h2 class="clearfix"><span class="moduleTitle">UK Time</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div class="vtbegenerated"><p id="ukTime" style="text-align:center;font-family:\'Open Sans\',sans-serif;font-weight:bold;font-size:16px;color:rgb(0,0,0);overflow-wrap:break-word;margin:0;"></p></div></div>';
+    document.querySelector('#column0').appendChild(timePort);
+    let ukTime = document.querySelector('#ukTime');
+    ukTime.innerText = calculateTime();
     setInterval(() => {
-        renderTimePort();
+        ukTime.innerText = calculateTime();
     }, 1000);
 }
 
@@ -154,21 +151,7 @@ function renderLivePort() {
     // render live session port
     let livePort = document.createElement('div');
     livePort.className = 'portlet clearfix';
-    livePort.innerHTML = 
-        `<div class="edit_controls">
-            <a class="editModule" title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editLivePort()">
-                <img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif">
-            </a>
-        </div>
-        <h2 class="clearfix">
-            <span class="moduleTitle">Live Sessions</span>
-        </h2>
-        <div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId">
-            <div id="livePort" style="display: block;">
-                <ul class="listElement">
-                </ul>
-            </div>
-        </div>`;
+    livePort.innerHTML = '<div class="edit_controls"><a class="editModule" title="Edit Entries" href="javascript:/*edit_module*/void(0);" onclick="LiveSessionsPortEditor.editLivePort()"><img alt="Edit Entries" src="https://learn.content.blackboardcdn.com/3900.6.0-rel.24+5fa90d1/images/ci/ng/palette_settings.gif"></a></div><h2 class="clearfix"><span class="moduleTitle">Live Sessions</span></h2><div class="collapsible" style="overflow: auto; aria-expanded="true" id="$fixedId"><div id="livePort" style="display: block;"><ul class="listElement"></ul></div></div>';
     document.querySelector('#column0').appendChild(livePort);
     chrome.storage.sync.get(['liveSessions'], (items) => {
         let entries = JSON.parse(items.liveSessions);
@@ -179,7 +162,7 @@ function renderLivePort() {
             iHTML += '<a href="' + entries[i].link + '" target="_blank">' + entries[i].group + (entries[i].title ? ' - ' : '') + entries[i].title + '</a>';
             // render copy button
             if (entries[i].passcode) {
-                iHTML += `<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + i + ')">' + entries[i].passcode + '</span>`;
+                iHTML += '<span class="cpbtn" title="Copy Passcode" onclick="LiveSessionsPortEditor.copyPasscode(' + i + ')">' + entries[i].passcode + '</span>';
             }
             // create direct shortcut
             if (entries[i].link.indexOf('zoom.us') > -1) {
@@ -210,7 +193,7 @@ function renderCollapseOption() {
             collapseBtn.className = 'collabtn';
             collapseBtn.setAttribute('onclick', 'PortletEditor.toggleCollapse(' + i + ')');
             collapseBtn.style.display = 'none';
-            collapseBtn.innerHTML = `<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M997.604 677.888l-431.56-431.56c-0.91-1.023-1.934-2.047-2.844-3.071-28.444-28.445-74.41-28.445-102.855 0L26.396 677.092c-28.444 28.444-28.444 74.41 0 102.855s74.411 28.444 102.856 0l382.293-382.294 383.09 383.09c28.444 28.445 74.41 28.445 102.855 0s28.444-74.41 0.114-102.855z"></path></svg>`;
+            collapseBtn.innerHTML = '<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width="15" height="15"><path d="M997.604 677.888l-431.56-431.56c-0.91-1.023-1.934-2.047-2.844-3.071-28.444-28.445-74.41-28.445-102.855 0L26.396 677.092c-28.444 28.444-28.444 74.41 0 102.855s74.411 28.444 102.856 0l382.293-382.294 383.09 383.09c28.444 28.445 74.41 28.445 102.855 0s28.444-74.41 0.114-102.855z"></path></svg>';
             // render display of the portlet
             if (collapsedPortlets.indexOf(title) > -1) {
                 mainbody.style.display = 'none';
@@ -229,55 +212,12 @@ function renderCollapseOption() {
     });
 }
 
-function insertAfter(newElement,targetElement){
-    var parent = targetElement.parentNode;
-    if(parent.lastChild == targetElement){
-          parent.appendChild(newElement);
-    }
-    else{
-          parent.insertBefore(newElement,targetElement.nextSibling);
-    }              
-}
-
-function renderDailySentence() {
-    // create new textboxes
-	    //locate the destination for injection
-        let destination_column = document.getElementById("module:_278_1");
-
-        //generate daily sentence box
-	    let daily_sentence_box = document.createElement("div")
-	    daily_sentence_box.className = "portlet clearfix";
-	    daily_sentence_box.innerHTML = `
-	    <h2 class="clearfix">
-            <span class="moduleTitle">
-                Daily Sentence
-            </span>
-        </h2>
-        <div class="collapsible" style="overflow: auto; display: block;" true"="" id="$fixedId">  
-            <div id="livePort" style="display: block; padding-left:20px; padding-right:20px;">
-                <h3>
-                    <img src="https://v2.jinrishici.com/one.svg?font-size=20&spacing=2&color=purple" style="margin-left: auto;margin-right:auto;display:block;"></img>
-                </h3>
-            </div>
-        </div>`
-        
-        insertAfter(daily_sentence_box, destination_column)
-}
-
-function sanitizeColumns() {
-    let del_list = [334, 422];
-    for (let i=0; i<del_list.length; i++) {
-        document.getElementById("module:_" + del_list[i] + "_1").remove();
-    }
-}
 
 // home page of blackboard
 if (document.querySelector('.moduleTitle') && document.querySelector('.moduleTitle').innerText === 'Welcome') {
     initialize();
-    sanitizeColumns();
     renderTimePort();
     renderLivePort();
-    renderDailySentence();
     renderCoursesPort();
     renderCollapseOption();
 }
